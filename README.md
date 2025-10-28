@@ -16,7 +16,7 @@ This Python package allows you to tokenize, clean, and analyze texts based on cu
 Clone this repository:
 
 ```bash
-git clone https://github.com/yourusername/vocabulate-python.git
+git clone https://github.com/scm1210/LEMO_Vocabulate.git
 cd LEMO_Vocabulate
 ```
 
