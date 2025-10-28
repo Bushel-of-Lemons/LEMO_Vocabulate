@@ -17,7 +17,7 @@ Clone this repository:
 
 ```bash
 git clone https://github.com/yourusername/vocabulate-python.git
-cd vocabulate-python
+cd LEMO_Vocabulate
 ```
 
 Install requirements 
