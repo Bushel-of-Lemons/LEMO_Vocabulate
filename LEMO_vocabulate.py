@@ -12,8 +12,8 @@ from vocabulate import run_vocabulate_analysis
 
 df_results = run_vocabulate_analysis(
     dict_file="Dictionary/AEV_Dict.csv", # path to dictionary file
-    input_data="texts_to_analyze",  # folder or file
-    stopwords_file="stopwords.txt", # path to stopwords file
+    input_data="texts_to_analyze",      # folder or file
+    stopwords_file="stopwords.txt",     # path to stopwords file
     raw_counts=True,
     output_csv="Vocabulate_Output.csv"
 )
@@ -28,13 +28,10 @@ from typing import Dict, List, Set, Tuple, Optional
 import pandas as pd
 from tqdm import tqdm
 
-
 # ------------------- CSV Parser -------------------
 class CSVParser:
-    """CSV parsing utilities"""
-
     @staticmethod
-    def parse(file_path: str, delimiter: str = ',', quotechar: str = '"', encoding: str = 'utf-8'):
+    def parse(file_path: str, delimiter: str = ',', quotechar: str = '"', encoding: str = 'utf-8') -> Tuple[List[str], List[List[str]]]:
         """Parse CSV file and return header and rows"""
         with open(file_path, 'r', encoding=encoding, newline='') as f:
             reader = csv.reader(f, delimiter=delimiter, quotechar=quotechar)
@@ -92,7 +89,7 @@ class StopWordRemover:
         self.stopwords = {word.strip().lower() for word in stoplist_text.split('\n') if word.strip()}
 
     def clear_stopwords(self, words: List[str]) -> List[str]:
-        return ['' if word in self.stopwords else word for word in words]
+        return [word for word in words if word not in self.stopwords]
 
 # ------------------- Dictionary Data -------------------
 class DictionaryData:
@@ -173,6 +170,50 @@ def load_stopwords_from_file(file_path: str) -> str:
     with open(file_path, 'r', encoding='utf-8') as f:
         return f.read()
 
+# ------------------- Dictionary Matcher -------------------
+def match_dictionary(dict_data: DictionaryData, words: List[str]) -> Tuple[Dict[str, int], int, str, List[str]]:
+    """Match words against dictionary with multi-word wildcards"""
+    concept_counts = defaultdict(int)
+    num_matched_tokens = 0
+    captured = []
+    nonmatched = []
+    i = 0
+
+    while i < len(words):
+        matched = False
+        for n in range(dict_data.max_words, 0, -1):
+            if i + n > len(words):
+                continue
+            target = ' '.join(words[i:i+n])
+            # Check standards
+            if n in dict_data.full_dictionary_map['Standards'] and target in dict_data.full_dictionary_map['Standards'][n]:
+                concept = dict_data.full_dictionary_map['Standards'][n][target]
+                concept_counts[concept] += 1
+                num_matched_tokens += n
+                captured.append(target)
+                i += n
+                matched = True
+                break
+            # Check wildcards
+            if n in dict_data.wildcard_arrays:
+                for wildcard in dict_data.wildcard_arrays[n]:
+                    if dict_data.precompiled_wildcards[wildcard].match(target):
+                        concept = dict_data.full_dictionary_map['Wildcards'][n][wildcard]
+                        concept_counts[concept] += 1
+                        num_matched_tokens += n
+                        captured.append(target)
+                        i += n
+                        matched = True
+                        break
+            if matched:
+                break
+        if not matched:
+            nonmatched.append(words[i])
+            i += 1
+
+    captured_text = ' '.join(captured)
+    return dict(concept_counts), num_matched_tokens, captured_text, nonmatched
+
 # ------------------- Main Vocabulate Analysis -------------------
 def run_vocabulate_analysis(
     dict_file: str,
@@ -231,7 +272,7 @@ def run_vocabulate_analysis(
     print(f"🔍 Analyzing {len(texts_to_process)} text(s)...")
 
     for idx, text in enumerate(tqdm(texts_to_process, desc="Processing texts", unit="text")):
-        wc = len(tokenizer.tokenize_whitespace(text))
+        wc = len(tokenizer.tokenize_whitespace(text))  # Word Count
         words_raw = tokenizer.tokenize(text)
         tc_raw = len(words_raw)
         ttr_raw = (len(set(words_raw)) / tc_raw * 100) if tc_raw else 0
@@ -242,38 +283,38 @@ def run_vocabulate_analysis(
         ttr_clean = (len(set(words_clean)) / tc_clean * 100) if tc_clean else 0
 
         concept_counts, num_matched_tokens, captured_text, nonmatched = match_dictionary(dict_data, words_clean)
-
         tc_nondict = len(nonmatched)
-        ttr_nondict = (len(set(nonmatched)) / tc_nondict * 100) if nonmatched else 0
+        ttr_nondict = (len(set(nonmatched)) / tc_nondict * 100) if tc_nondict else 0
         dict_percent = (num_matched_tokens / tc_raw * 100) if tc_raw else 0
 
-        # Category results
-        category_results = {cat: [0, 0] for cat in dict_data.cat_names}
+        # Category-level counts
+        category_results = {cat: [0, 0] for cat in dict_data.cat_names}  # [unique_count, total_count]
         for concept, count in concept_counts.items():
             if concept in dict_data.concept_map:
                 for category in dict_data.concept_map[concept]:
-                    category_results[category][0] += 1
-                    category_results[category][1] += count
+                    category_results[category][0] += 1  # unique concepts
+                    category_results[category][1] += count  # total occurrences
 
+        # ---------------- Build row ----------------
         row = {
             "Filename": filenames[idx],
             "text": text,
             "WC": wc,
             "TC_Raw": tc_raw,
-            "TTR_Raw": round(ttr_raw, 2),
+            "TTR_Raw": round(ttr_raw, 5),
             "TC_Clean": tc_clean,
-            "TTR_Clean": round(ttr_clean, 2),
+            "TTR_Clean": round(ttr_clean, 5),
             "TC_NonDict": tc_nondict,
-            "TTR_NonDict": round(ttr_nondict, 2),
-            "DictPercent": round(dict_percent, 2),
+            "TTR_NonDict": round(ttr_nondict, 5),
+            "DictPercent": round(dict_percent, 5),
             "CapturedText": captured_text
         }
 
-        # Add CWR/CCR and raw counts
+        # ---------------- Add category-level CWR/CCR and raw counts ----------------
         for cat in dict_data.cat_names:
             unique_count, total_count = category_results[cat]
-            row[f"{cat}_CWR"] = round(unique_count / wc * 100, 2) if wc else 0
-            row[f"{cat}_CCR"] = round(unique_count / total_count * 100, 2) if total_count else 0
+            row[f"{cat}_CWR"] = round(unique_count / wc * 100, 5) if wc else 0  # CWR = unique / WC
+            row[f"{cat}_CCR"] = round(unique_count / total_count * 100, 5) if total_count else 0  # CCR = unique / total
             if raw_counts:
                 row[f"{cat}_Count"] = total_count
                 row[f"{cat}_Unique"] = unique_count
@@ -288,44 +329,3 @@ def run_vocabulate_analysis(
 
     print("✅ Analysis complete.")
     return df_results
-# ------------------- Dictionary Matcher -------------------
-def match_dictionary(dict_data: DictionaryData, words: List[str]) -> Tuple[Dict[str, int], int, str, List[str]]:
-    """Match words against dictionary with multi-word wildcards"""
-    concept_counts = defaultdict(int)
-    num_matched_tokens = 0
-    captured = []
-    nonmatched = []
-    i = 0
-
-    while i < len(words):
-        matched = False
-        for n in range(dict_data.max_words, 0, -1):
-            if i + n > len(words):
-                continue
-            target = ' '.join(words[i:i+n])
-            if n in dict_data.full_dictionary_map['Standards'] and target in dict_data.full_dictionary_map['Standards'][n]:
-                concept = dict_data.full_dictionary_map['Standards'][n][target]
-                concept_counts[concept] += 1
-                num_matched_tokens += n
-                captured.append(target)
-                i += n
-                matched = True
-                break
-            if n in dict_data.wildcard_arrays:
-                for wildcard in dict_data.wildcard_arrays[n]:
-                    if dict_data.precompiled_wildcards[wildcard].match(target):
-                        concept = dict_data.full_dictionary_map['Wildcards'][n][wildcard]
-                        concept_counts[concept] += 1
-                        num_matched_tokens += n
-                        captured.append(target)
-                        i += n
-                        matched = True
-                        break
-            if matched:
-                break
-        if not matched:
-            nonmatched.append(words[i])
-            i += 1
-
-    captured_text = ' '.join(captured)
-    return dict(concept_counts), num_matched_tokens, captured_text, nonmatched
