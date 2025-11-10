@@ -1,0 +1,12 @@
+Filename,text,WC,TC_Raw,TTR_Raw,TC_Clean,TTR_Clean,TC_NonDict,TTR_NonDict,DictPercent,CapturedText,Neg_CWR,Neg_CCR,Neg_Count,Neg_Unique,Pos_CWR,Pos_CCR,Pos_Count,Pos_Unique,AnxFear_CWR,AnxFear_CCR,AnxFear_Count,AnxFear_Unique,Anger_CWR,Anger_CCR,Anger_Count,Anger_Unique,Sadness_CWR,Sadness_CCR,Sadness_Count,Sadness_Unique,NegUndiff_CWR,NegUndiff_CCR,NegUndiff_Count,NegUndiff_Unique
+0,This is a sample text about health and wellness.,9,10,100.0,6,100.0,6,100.0,0.0,,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0,0,0,0.0,0,0,0
+1,I love playing soccer with my friends.,7,8,100.0,5,100.0,4,100.0,12.5,love,0.0,0.0,0,0,14.29,100.0,1,1,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0,0,0,0.0,0,0,0
+2,Feeling anxious about tomorrow's presentation.,5,6,100.0,6,100.0,5,100.0,16.67,anxious,20.0,100.0,1,1,0.0,0.0,0,0,20.0,100.0,1,1,0.0,0.0,0,0,0.0,0,0,0,0.0,0,0,0
+3,Just finished a great book on neuroscience!,7,8,100.0,6,100.0,6,100.0,0.0,,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0,0,0,0.0,0,0,0
+4,Working from home has been surprisingly productive.,7,8,100.0,5,100.0,4,100.0,12.5,surprisingly,0.0,0.0,0,0,14.29,100.0,1,1,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0,0,0,0.0,0,0,0
+5,I’m frustrated with the traffic today.,6,9,100.0,6,100.0,5,100.0,11.11,frustrated,16.67,100.0,1,1,0.0,0.0,0,0,0.0,0.0,0,0,16.67,100.0,1,1,0.0,0,0,0,0.0,0,0,0
+6,Meditation helps me focus better every morning.,7,8,100.0,7,100.0,7,100.0,0.0,,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0,0,0,0.0,0,0,0
+7,Politics is exhausting these days.,5,6,100.0,4,100.0,4,100.0,0.0,,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0,0,0,0.0,0,0,0
+8,Had a wonderful dinner with family.,6,7,100.0,4,100.0,4,100.0,0.0,,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0,0,0,0.0,0,0,0
+9,Trying to improve my coding skills every day.,8,9,100.0,7,100.0,7,100.0,0.0,,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0.0,0,0,0.0,0,0,0,0.0,0,0,0
+10,"Hate, hate, hate this situation!",5,8,62.5,7,57.14,4,75.0,37.5,hate hate hate,20.0,33.33,3,1,0.0,0.0,0,0,0.0,0.0,0,0,20.0,33.33,3,1,0.0,0,0,0,0.0,0,0,0
