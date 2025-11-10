@@ -216,8 +216,8 @@ def match_dictionary(dict_data: DictionaryData, words: List[str]) -> Tuple[Dict[
 
 # ------------------- Main Vocabulate Analysis -------------------
 def run_vocabulate_analysis(
-    dict_file: str,
-    input_data,
+    dict_file: str = None,
+    input_data=None,
     text_column: str = None,
     stopwords_text: str = None,
     stopwords_file: str = None,
@@ -228,6 +228,13 @@ def run_vocabulate_analysis(
     output_csv: str = None
 ) -> pd.DataFrame:
     """Analyze text(s) using a Vocabulate dictionary, with progress bar."""
+
+    # ---------- Check required files ----------
+    if not dict_file:
+        raise ValueError("Error: dict_file must be specified.")
+    if not stopwords_file and not stopwords_text:
+        raise ValueError("Error: Either stopwords_file or stopwords_text must be provided.")
+
     tokenizer = TwitterAwareTokenizer()
     stop_remover = StopWordRemover()
 
