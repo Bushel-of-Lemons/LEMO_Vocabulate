@@ -3,7 +3,19 @@
 **Vocabulate** is a dictionary-based text analysis tool originally converted from C#.  
 This Python package allows you to tokenize, clean, and analyze texts based on custom dictionaries.
 
-**DISCLAIMER:** I do not take credit for this software. All credit goes to `Vine, V., Boyd, R. L., & Pennebaker, J. W. (2020). Natural emotion vocabularies as windows on distress and well-being. Nature Communications, 11(1), 4525. https://doi.org/10.1038/s41467-020-18349-0`
+**DISCLAIMER:** I do not take credit for this software. All credit goes to: 
+```
+@article{vine2020natural,
+  title={Natural emotion vocabularies as windows on distress and well-being},
+  author={Vine, Vera and Boyd, Ryan L. and Pennebaker, James W.},
+  journal={Nature Communications},
+  volume={11},
+  number={1},
+  pages={4525},
+  year={2020},
+  doi={10.1038/s41467-020-18349-0}
+}
+```
 
 ## Features
 
