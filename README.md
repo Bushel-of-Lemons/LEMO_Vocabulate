@@ -53,7 +53,7 @@ df = pd.DataFrame({
 })
 
 results = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv", # link to dictionary file
+    dict_file="Dictionary/AEV_Dict.csv", # link to dictionary file which you must specify 
     input_data=df, # df you wanna analyze
     text_column="text",
     stopwords_file="stopwords.txt", #stop words file
