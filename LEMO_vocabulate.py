@@ -164,11 +164,18 @@ class LoadDictionary:
         dict_data.dictionary_loaded = True
         return dict_data
 
-# ------------------- Utility -------------------
-def load_stopwords_from_file(file_path: str) -> str:
-    """Load stopwords from a text file, one per line."""
-    with open(file_path, 'r', encoding='utf-8') as f:
-        return f.read()
+# load_stopwords_from_file
+def load_stopwords_from_file(file_path: str, encoding: str = "utf-8") -> str:
+    """Load stopwords from a text file, one per line, with error handling."""
+    path = Path(file_path)
+    if not path.is_file():
+        raise FileNotFoundError(f"Stopwords file not found: {file_path}.\nPlease provide a valid path to the stopwords file!")
+    try:
+        with open(path, 'r', encoding=encoding) as f:
+            return f.read()
+    except UnicodeDecodeError as e:
+        raise UnicodeDecodeError(f"Failed to decode {file_path} with encoding {encoding}: {e}")
+
 
 # ------------------- Dictionary Matcher -------------------
 def match_dictionary(dict_data: DictionaryData, words: List[str]) -> Tuple[Dict[str, int], int, str, List[str]]:
@@ -227,52 +234,75 @@ def run_vocabulate_analysis(
     csv_quote: str = '"',
     output_csv: str = None
 ) -> pd.DataFrame:
-    """Analyze text(s) using a Vocabulate dictionary, with progress bar."""
+    """Analyze text(s) using a Vocabulate dictionary, with input validation and error handling."""
 
     # ---------- Check required files ----------
     if not dict_file:
         raise ValueError("Error: dict_file must be specified.")
+    dict_path = Path(dict_file)
+    if not dict_path.is_file():
+        raise FileNotFoundError(f"Dictionary file not found: {dict_file}. Please provide a valid path to the dictionary file!")
+
     if not stopwords_file and not stopwords_text:
         raise ValueError("Error: Either stopwords_file or stopwords_text must be provided.")
 
+    # ---------- Load stopwords ----------
     tokenizer = TwitterAwareTokenizer()
     stop_remover = StopWordRemover()
 
     if stopwords_file:
-        stopwords_text = load_stopwords_from_file(stopwords_file)
+        stopwords_text = load_stopwords_from_file(stopwords_file, encoding)
     if stopwords_text:
         stop_remover.build_stoplist(stopwords_text)
 
+    # ---------- Load dictionary ----------
     dict_data = DictionaryData()
     loader = LoadDictionary()
-    dict_data = loader.load_dictionary_file(dict_data, dict_file, encoding, csv_delimiter, csv_quote)
+    try:
+        dict_data = loader.load_dictionary_file(dict_data, dict_file, encoding, csv_delimiter, csv_quote)
+    except Exception as e:
+        raise RuntimeError(f"Failed to load dictionary: {e}")
+
     dict_data.raw_word_counts = raw_counts
 
-    # ------------- Determine Input -------------
+    # ---------- Determine Input ----------
     texts_to_process = []
     filenames = []
 
     if isinstance(input_data, pd.DataFrame):
         if text_column is None:
             raise ValueError("text_column must be specified for DataFrame input.")
-        texts_to_process = input_data[text_column].astype(str).tolist()
+        if text_column not in input_data.columns:
+            raise ValueError(f"Column '{text_column}' not found in input_data DataFrame. Please specify a valid text_column.")
+        texts_to_process = input_data[text_column].fillna("").astype(str).tolist()
         filenames = input_data.index.astype(str).tolist()
+
     elif isinstance(input_data, (str, Path)):
         path = Path(input_data)
         if path.is_file():
-            texts_to_process = [path.read_text(encoding=encoding)]
+            try:
+                texts_to_process = [path.read_text(encoding=encoding)]
+            except UnicodeDecodeError as e:
+                raise UnicodeDecodeError(f"Failed to read {path} with encoding {encoding}: {e}")
             filenames = [path.name]
         elif path.is_dir():
             files = list(path.glob("*.txt"))
             if not files:
-                raise ValueError(f"No .txt files found in {input_data}")
+                raise ValueError(f"No .txt files found in directory: {input_data}")
             for f in files:
-                texts_to_process.append(f.read_text(encoding=encoding))
+                try:
+                    texts_to_process.append(f.read_text(encoding=encoding))
+                except UnicodeDecodeError as e:
+                    raise UnicodeDecodeError(f"Failed to read {f} with encoding {encoding}: {e}")
                 filenames.append(f.name)
         else:
             raise ValueError(f"Invalid input path: {input_data}")
+
     else:
         raise ValueError("input_data must be a DataFrame, file path, or folder path.")
+
+    if not texts_to_process:
+        raise ValueError("No texts to process. Check your input_data and encoding.")
 
     # ------------- Process Texts -------------
     results = []
