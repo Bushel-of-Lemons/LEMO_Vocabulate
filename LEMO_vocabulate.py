@@ -78,6 +78,8 @@ class TwitterAwareTokenizer:
         return words
 
 def tokenize_whitespace(self, text: str):
+    """Simple whitespace tokenizer with URL/path awareness"""
+
     import re
     initial_tokens = text.strip().split()
     final_tokens = []
@@ -245,7 +247,7 @@ def run_vocabulate_analysis(
     csv_quote: str = '"',
     output_csv: str = None
 ) -> pd.DataFrame:
-    """Analyze text(s) using a Vocabulate dictionary, with input validation and error handling."""
+    """Analyze text(s) using a dictionary file, with input validation and error handling."""
 
     # ---------- Check required files ----------
     if not dict_file:
@@ -258,8 +260,8 @@ def run_vocabulate_analysis(
         raise ValueError("Error: Either stopwords_file or stopwords_text must be provided.")
 
     # ---------- Load stopwords ----------
-    tokenizer = TwitterAwareTokenizer()
-    stop_remover = StopWordRemover()
+    tokenizer = TwitterAwareTokenizer() # initialize tokenizer
+    stop_remover = StopWordRemover() # initialize stopword remover
 
     if stopwords_file:
         stopwords_text = load_stopwords_from_file(stopwords_file, encoding)
@@ -267,8 +269,8 @@ def run_vocabulate_analysis(
         stop_remover.build_stoplist(stopwords_text)
 
     # ---------- Load dictionary ----------
-    dict_data = DictionaryData()
-    loader = LoadDictionary()
+    dict_data = DictionaryData() # initialize dictionary data
+    loader = LoadDictionary() # initialize dictionary loader
     try:
         dict_data = loader.load_dictionary_file(dict_data, dict_file, encoding, csv_delimiter, csv_quote)
     except Exception as e:

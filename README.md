@@ -4,6 +4,7 @@
 This Python package allows you to tokenize, clean, and analyze texts based on custom dictionaries.
 
 **DISCLAIMER:** I do not take credit for this software. All credit goes to: 
+
 ```
 @article{vine2020natural,
   title={Natural emotion vocabularies as windows on distress and well-being},
@@ -24,6 +25,64 @@ This Python package allows you to tokenize, clean, and analyze texts based on cu
 - Dictionary matching with multi-word wildcards
 - Calculation of text metrics: word count, type-token ratio, dictionary coverage
 - Outputs results to a Pandas DataFrame and optionally a CSV
+
+## Stopwords
+
+Stopword removal allows you to exclude very common function words (e.g., `the`, `and`, `is`, `I`, `you`) that typically do not carry psychological or semantic content. In this software, stopwords are removed **after tokenization** and **before dictionary matching**, which improves the interpretability of dictionary categories.
+
+You can supply stopwords in two ways:
+
+### 1. Using a stopwords file (recommended)
+
+A simple `.txt` file with one word per line:
+
+```txt
+the
+and
+is
+i
+you
+to
+```
+
+**Use it like this:**
+```python
+results = run_vocabulate_analysis(results = run_vocabulate_analysis(
+    dict_file="Dictionary/AEV_Dict.csv",
+    input_data=df,
+    text_column="text",
+    stopwords_file="stopwords.txt"
+)
+```
+
+### 2. Using a stopwords string (not recommended)
+
+``` python 
+stopwords = "the\nand\nis\nbe\nnot\n"
+results = run_vocabulate_analysis(
+    dict_file="Dictionary/AEV_Dict.csv",
+    input_data=df,
+    text_column="text",
+    stopwords_text=stopwords
+)
+```
+
+### How Stopwords Affect Analyses
+
+**Stopword removal does NOT affect:**
+- `WC` (whitespace word count)
+- `TC_Raw` (raw token count)
+- `TTR_Raw`
+
+**Stopword removal DOES affect:**
+
+| Column | Effect |
+|--------|--------|
+| `TC_Clean` | Tokens after stopword removal |
+| `TTR_Clean` | Based on clean tokens |
+| `TC_NonDict` | Non-dict tokens after cleaning |
+| `DictPercent` | Higher if stopwords filtered out |
+| Category metrics | Only meaningful content words
 
 ## Installation
 
@@ -105,3 +164,4 @@ Neg_Unique → Number of unique Neg words matched
 | Filename | text                                               | WC | TC_Raw | TTR_Raw | TC_Clean | TTR_Clean | TC_NonDict | TTR_NonDict | DictPercent | CapturedText      | Health_CWR | Health_CCR | Health_Count | Health_Unique | Emotion_CWR | ... |
 | -------- | -------------------------------------------------- | -- | ------ | ------- | -------- | --------- | ---------- | ----------- | ----------- | ----------------- | ---------- | ---------- | ------------ | ------------- | ----------- | --- |
 | 0        | "This is a sample text about health and wellness." | 10 | 11     | 90.91   | 9        | 88.89     | 3          | 66.67       | 70          | "health wellness" | 20.0       | 100.0      | 2            | 2             | 10.0        | ... |
+
