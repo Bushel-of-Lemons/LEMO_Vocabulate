@@ -77,8 +77,19 @@ class TwitterAwareTokenizer:
             words = [w if self.emoticon_re.match(w) else w.lower() for w in words]
         return words
 
-    def tokenize_whitespace(self, text: str) -> List[str]:
-        return text.strip().split()
+def tokenize_whitespace(self, text: str):
+    import re
+    initial_tokens = text.strip().split()
+    final_tokens = []
+    for token in initial_tokens:
+        # Don't split if it looks like a URL or file path
+        if re.match(r'^https?://', token) or '.' in token:
+            final_tokens.append(token)
+        else:
+            subtokens = [t for t in token.split('/') if t]
+            final_tokens.extend(subtokens)
+    return final_tokens
+
 
 # ------------------- Stopword Remover -------------------
 class StopWordRemover:
