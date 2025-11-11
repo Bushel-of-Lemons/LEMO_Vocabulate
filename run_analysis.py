@@ -12,11 +12,11 @@ n = 11  # number of rows
 
 # ---------------- Dictionary Analysis ----------------
 df = run_vocabulate_analysis(
-    dict_file="/scratch/network/sm9518/vocabulate/Dictionary/2019-07-30 - AEV_Dict.csv",
-    input_data="/scratch/network/sm9518/vocabulate/texts_to_analyze",
-    stopwords_file="/scratch/network/sm9518/vocabulate/stopwords.txt",
+    dict_file="Dictionary/AEV_Dict.csv",
+    input_data="texts_to_analyze",
+    stopwords_file="stopwords.txt",
     raw_counts=True,
-    output_csv="/scratch/network/sm9518/vocabulate/output.csv"
+    output_csv="output.csv"
 )
 print(df.head())
 
@@ -29,7 +29,7 @@ test_df = pd.DataFrame({
         "Feeling anxious about tomorrow's presentation.",
         "Just finished a great book on neuroscience!",
         "Working from home has been surprisingly productive.",
-        "I’m frustrated with the traffic today.",
+        "I'm frustrated with the traffic today.",
         "Meditation helps me focus better every morning.",
         "Politics is exhausting these days.",
         "Had a wonderful dinner with family.",
@@ -42,12 +42,12 @@ print(test_df.head())
 
 # ---------------- Run Vocabulate ----------------
 df_results = run_vocabulate_analysis(
-    dict_file="/scratch/network/sm9518/vocabulate/Dictionary/2019-07-30 - AEV_Dict.csv",
+    dict_file="Dictionary/AEV_Dict.csv",
     input_data=test_df,
     text_column="text",
-    stopwords_file="/scratch/network/sm9518/vocabulate/stopwords.txt",
+    stopwords_file="stopwords.txt",
     raw_counts=True,
-    output_csv="/scratch/network/sm9518/vocabulate/pandas_output.csv"
+    output_csv="pandas_output.csv"
 )
 
 print(df_results.head())

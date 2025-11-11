@@ -21,7 +21,15 @@ This Python package allows you to tokenize, clean, and analyze texts based on cu
 ## Features
 
 - Tokenization designed for social media text
+    This program uses a Twitter-aware tokenizer designed to handle:
+    * usernames (@user)
+    * hashtags (#happy)
+    * emojis and emoticons
+    * URLs
+    * repeated characters (soooo good)
+    * punctuation-heavy social media text
 - Stopword removal
+
 - Dictionary matching with multi-word wildcards
 - Calculation of text metrics: word count, type-token ratio, dictionary coverage
 - Outputs results to a Pandas DataFrame and optionally a CSV
