@@ -15,7 +15,8 @@ df_results = run_vocabulate_analysis(
     input_data="texts_to_analyze",      # folder or file
     stopwords_file="stopwords.txt",     # path to stopwords file
     raw_counts=True,
-    output_csv="Vocabulate_Output.csv"
+    output_csv="Vocabulate_Output.csv",
+    whitespace_method="new"             # 'old' or 'new' whitespace tokenization. default is 'new' and doesnt have to be specified.
 )
 print(df_results.head())
 """
@@ -77,21 +78,27 @@ class TwitterAwareTokenizer:
             words = [w if self.emoticon_re.match(w) else w.lower() for w in words]
         return words
 
-def tokenize_whitespace(self, text: str):
-    """Simple whitespace tokenizer with URL/path awareness"""
-
-    import re
-    initial_tokens = text.strip().split()
-    final_tokens = []
-    for token in initial_tokens:
-        # Don't split if it looks like a URL or file path
-        if re.match(r'^https?://', token) or '.' in token:
-            final_tokens.append(token)
-        else:
-            subtokens = [t for t in token.split('/') if t]
-            final_tokens.extend(subtokens)
-    return final_tokens
-
+# ------------------- Whitespace Tokenizer -------------------
+def tokenize_whitespace(text: str, method: str = 'new') -> list:
+    """
+    Tokenize text using either 'new' (URL/path-aware) or 'old' (simple split) method.
+    """
+    text = str(text).strip()
+    if method.lower() == 'old':
+        return text.split()
+    elif method.lower() == 'new':
+        import re
+        initial_tokens = text.split()
+        final_tokens = []
+        for token in initial_tokens:
+            if re.match(r'^https?://', token) or '.' in token:
+                final_tokens.append(token)
+            else:
+                subtokens = [t for t in token.split('/') if t]
+                final_tokens.extend(subtokens)
+        return final_tokens
+    else:
+        raise ValueError("Invalid method. Choose 'old' or 'new'.")
 
 # ------------------- Stopword Remover -------------------
 class StopWordRemover:
@@ -177,9 +184,8 @@ class LoadDictionary:
         dict_data.dictionary_loaded = True
         return dict_data
 
-# load_stopwords_from_file
+# ------------------- Load Stopwords -------------------
 def load_stopwords_from_file(file_path: str, encoding: str = "utf-8") -> str:
-    """Load stopwords from a text file, one per line, with error handling."""
     path = Path(file_path)
     if not path.is_file():
         raise FileNotFoundError(f"Stopwords file not found: {file_path}.\nPlease provide a valid path to the stopwords file!")
@@ -189,10 +195,8 @@ def load_stopwords_from_file(file_path: str, encoding: str = "utf-8") -> str:
     except UnicodeDecodeError as e:
         raise UnicodeDecodeError(f"Failed to decode {file_path} with encoding {encoding}: {e}")
 
-
 # ------------------- Dictionary Matcher -------------------
 def match_dictionary(dict_data: DictionaryData, words: List[str]) -> Tuple[Dict[str, int], int, str, List[str]]:
-    """Match words against dictionary with multi-word wildcards"""
     concept_counts = defaultdict(int)
     num_matched_tokens = 0
     captured = []
@@ -245,32 +249,30 @@ def run_vocabulate_analysis(
     encoding: str = "utf-8",
     csv_delimiter: str = ",",
     csv_quote: str = '"',
-    output_csv: str = None
+    output_csv: str = None,
+    whitespace_method: str = 'new'  # <- new optional parameter
 ) -> pd.DataFrame:
     """Analyze text(s) using a dictionary file, with input validation and error handling."""
 
-    # ---------- Check required files ----------
     if not dict_file:
         raise ValueError("Error: dict_file must be specified.")
     dict_path = Path(dict_file)
     if not dict_path.is_file():
-        raise FileNotFoundError(f"Dictionary file not found: {dict_file}. Please provide a valid path to the dictionary file!")
+        raise FileNotFoundError(f"Dictionary file not found: {dict_file}.")
 
     if not stopwords_file and not stopwords_text:
         raise ValueError("Error: Either stopwords_file or stopwords_text must be provided.")
 
-    # ---------- Load stopwords ----------
-    tokenizer = TwitterAwareTokenizer() # initialize tokenizer
-    stop_remover = StopWordRemover() # initialize stopword remover
+    tokenizer = TwitterAwareTokenizer()
+    stop_remover = StopWordRemover()
 
     if stopwords_file:
         stopwords_text = load_stopwords_from_file(stopwords_file, encoding)
     if stopwords_text:
         stop_remover.build_stoplist(stopwords_text)
 
-    # ---------- Load dictionary ----------
-    dict_data = DictionaryData() # initialize dictionary data
-    loader = LoadDictionary() # initialize dictionary loader
+    dict_data = DictionaryData()
+    loader = LoadDictionary()
     try:
         dict_data = loader.load_dictionary_file(dict_data, dict_file, encoding, csv_delimiter, csv_quote)
     except Exception as e:
@@ -286,43 +288,36 @@ def run_vocabulate_analysis(
         if text_column is None:
             raise ValueError("text_column must be specified for DataFrame input.")
         if text_column not in input_data.columns:
-            raise ValueError(f"Column '{text_column}' not found in input_data DataFrame. Please specify a valid text_column.")
+            raise ValueError(f"Column '{text_column}' not found in input_data DataFrame.")
         texts_to_process = input_data[text_column].fillna("").astype(str).tolist()
         filenames = input_data.index.astype(str).tolist()
 
     elif isinstance(input_data, (str, Path)):
         path = Path(input_data)
         if path.is_file():
-            try:
-                texts_to_process = [path.read_text(encoding=encoding)]
-            except UnicodeDecodeError as e:
-                raise UnicodeDecodeError(f"Failed to read {path} with encoding {encoding}: {e}")
+            texts_to_process = [path.read_text(encoding=encoding)]
             filenames = [path.name]
         elif path.is_dir():
             files = list(path.glob("*.txt"))
             if not files:
                 raise ValueError(f"No .txt files found in directory: {input_data}")
             for f in files:
-                try:
-                    texts_to_process.append(f.read_text(encoding=encoding))
-                except UnicodeDecodeError as e:
-                    raise UnicodeDecodeError(f"Failed to read {f} with encoding {encoding}: {e}")
+                texts_to_process.append(f.read_text(encoding=encoding))
                 filenames.append(f.name)
         else:
             raise ValueError(f"Invalid input path: {input_data}")
-
     else:
         raise ValueError("input_data must be a DataFrame, file path, or folder path.")
 
     if not texts_to_process:
-        raise ValueError("No texts to process. Check your input_data and encoding.")
+        raise ValueError("No texts to process.")
 
     # ------------- Process Texts -------------
     results = []
     print(f"🔍 Analyzing {len(texts_to_process)} text(s)...")
 
     for idx, text in enumerate(tqdm(texts_to_process, desc="Processing texts", unit="text")):
-        wc = len(tokenizer.tokenize_whitespace(text))  # Word Count
+        wc = len(tokenize_whitespace(text, method=whitespace_method))
         words_raw = tokenizer.tokenize(text)
         tc_raw = len(words_raw)
         ttr_raw = (len(set(words_raw)) / tc_raw * 100) if tc_raw else 0
@@ -342,10 +337,9 @@ def run_vocabulate_analysis(
         for concept, count in concept_counts.items():
             if concept in dict_data.concept_map:
                 for category in dict_data.concept_map[concept]:
-                    category_results[category][0] += 1  # unique concepts
-                    category_results[category][1] += count  # total occurrences
+                    category_results[category][0] += 1
+                    category_results[category][1] += count
 
-        # ---------------- Build row ----------------
         row = {
             "Filename": filenames[idx],
             "text": text,
@@ -360,11 +354,10 @@ def run_vocabulate_analysis(
             "CapturedText": captured_text
         }
 
-        # ---------------- Add category-level CWR/CCR and raw counts ----------------
         for cat in dict_data.cat_names:
             unique_count, total_count = category_results[cat]
-            row[f"{cat}_CWR"] = round(unique_count / wc * 100, 5) if wc else 0  # CWR = unique / WC
-            row[f"{cat}_CCR"] = round(unique_count / total_count * 100, 5) if total_count else 0  # CCR = unique / total
+            row[f"{cat}_CWR"] = round(unique_count / wc * 100, 5) if wc else 0
+            row[f"{cat}_CCR"] = round(unique_count / total_count * 100, 5) if total_count else 0
             if raw_counts:
                 row[f"{cat}_Count"] = total_count
                 row[f"{cat}_Unique"] = unique_count
