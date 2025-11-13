@@ -3,7 +3,7 @@
 **Vocabulate** is a dictionary-based text analysis tool originally converted from C#.  
 This Python package allows you to tokenize, clean, and analyze texts based on custom dictionaries.
 
-**DISCLAIMER:** I do not take credit for this software. All credit goes to: 
+**DISCLAIMER:** I do not take credit for this software I simply updated the programming language. All credit goes to: 
 
 ```
 @article{vine2020natural,
