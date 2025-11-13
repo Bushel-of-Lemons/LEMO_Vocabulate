@@ -56,6 +56,8 @@ results = run_vocabulate_analysis(
 print(results.head())
 ```
 
+For more examples, see the `lemo_vocabulate_example.ipynb` notebook.
+
 ## Features
 
 - Tokenization designed for social media text
