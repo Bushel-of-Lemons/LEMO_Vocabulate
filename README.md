@@ -111,7 +111,8 @@ results = run_vocabulate_analysis(results = run_vocabulate_analysis(
     dict_file="Dictionary/AEV_Dict.csv",
     input_data=df,
     text_column="text",
-    stopwords_file="stopwords.txt"
+    stopwords_file="stopwords.txt",
+    output_csv="output.csv"
 )
 ```
 
@@ -123,7 +124,8 @@ results = run_vocabulate_analysis(
     dict_file="Dictionary/AEV_Dict.csv",
     input_data=df,
     text_column="text",
-    stopwords_text=stopwords
+    stopwords_text=stopwords,
+    output_csv="output.csv"
 )
 ```
 
