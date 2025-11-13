@@ -18,6 +18,44 @@ This Python package allows you to tokenize, clean, and analyze texts based on cu
 }
 ```
 
+## Installation
+
+Clone this repository:
+
+```bash
+git clone https://github.com/Bushel-of-Lemons/LEMO_Vocabulate.git
+cd LEMO_Vocabulate
+```
+
+Install requirements 
+
+```bash
+pip install -r requirements.txt
+```
+
+## Example usage 
+
+```python 
+import pandas as pd
+from LEMO_vocabulate import run_vocabulate_analysis 
+
+# Example using a DataFrame
+df = pd.DataFrame({
+    "user_id": ["user_1", "user_2"],
+    "text": ["This is a sample text.", "Another example text."]
+})
+
+results = run_vocabulate_analysis(
+    dict_file="Dictionary/AEV_Dict.csv", # link to dictionary file which you must specify 
+    input_data=df, # df you wanna analyze
+    text_column="text",
+    stopwords_file="stopwords.txt", #stop words file
+    raw_counts=True # if you want raw Freqs.
+)
+
+print(results.head())
+```
+
 ## Features
 
 - Tokenization designed for social media text
@@ -92,43 +130,6 @@ results = run_vocabulate_analysis(
 | `DictPercent` | Higher if stopwords filtered out |
 | Category metrics | Only meaningful content words
 
-## Installation
-
-Clone this repository:
-
-```bash
-git clone https://github.com/Bushel-of-Lemons/LEMO_Vocabulate.git
-cd LEMO_Vocabulate
-```
-
-Install requirements 
-
-```bash
-pip install -r requirements.txt
-```
-
-## Example usage 
-
-```python 
-import pandas as pd
-from LEMO_vocabulate import run_vocabulate_analysis 
-
-# Example using a DataFrame
-df = pd.DataFrame({
-    "user_id": ["user_1", "user_2"],
-    "text": ["This is a sample text.", "Another example text."]
-})
-
-results = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv", # link to dictionary file which you must specify 
-    input_data=df, # df you wanna analyze
-    text_column="text",
-    stopwords_file="stopwords.txt", #stop words file
-    raw_counts=True # if you want raw Freqs.
-)
-
-print(results.head())
-```
 
 ## Some Documentation 
 
