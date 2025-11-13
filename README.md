@@ -3,7 +3,7 @@
 **Vocabulate** is a dictionary-based text analysis tool originally converted from C#.  
 This Python package allows you to tokenize, clean, and analyze texts based on custom dictionaries.
 
-**DISCLAIMER:** I do not take credit for this software I simply updated the programming language. All credit goes to: 
+**DISCLAIMER:** I do not take credit for this software I simply reconfigured it to run using a higher-level programming language. All credit goes to: 
 
 ```
 @article{vine2020natural,
@@ -68,7 +68,19 @@ print(results.head())
     * punctuation-heavy social media text
 - Stopword removal
 
-- Dictionary matching with multi-word wildcards
+- Dictionary matching with multi-word wildcards. Here, we use the dictionary format from the original software, but user's can create their own dictionaries as needed. and specify any dictionary file in CSV format using the `dict_file` parameter in the function. 
+
+    **Dictionary breakdown:**
+    ```
+    Neg          94
+    Pos          53
+    AnxFear      20
+    Anger        16
+    Sadness      36
+    NegUndiff    15
+    Total words in dictionary: 162
+    ```
+
 - Calculation of text metrics: word count, type-token ratio, dictionary coverage
 - Outputs results to a Pandas DataFrame and optionally a CSV
 

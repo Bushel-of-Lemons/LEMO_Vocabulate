@@ -18,7 +18,8 @@ df_results = run_vocabulate_analysis(
     output_csv="Vocabulate_Output.csv",
     whitespace_method="new"             # 'old' or 'new' whitespace tokenization. default is 'new' and doesnt have to be specified.
 )
-print(df_results.head())
+print(df_results.head()) # return results as DataFrame
+----------------
 """
 
 import csv
