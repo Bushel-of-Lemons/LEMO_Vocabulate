@@ -19,7 +19,6 @@ df_results = run_vocabulate_analysis(
     whitespace_method="new"             # 'old' or 'new' whitespace tokenization. default is 'new' and doesnt have to be specified.
 )
 print(df_results.head()) # return results as DataFrame
-----------------
 """
 
 import csv
