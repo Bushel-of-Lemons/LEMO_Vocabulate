@@ -20,11 +20,11 @@ This Python package allows you to tokenize, clean, and analyze texts based on cu
 
 ## Installation
 
-Clone this repository:
+Clone this repository and navigate to the project directory:
 
 ```bash
 git clone https://github.com/Bushel-of-Lemons/LEMO_Vocabulate.git
-cd LEMO_Vocabulate
+cd LEMO_Vocabulate 
 ```
 
 Install requirements 
@@ -34,6 +34,8 @@ pip install -r requirements.txt
 ```
 
 ## Example usage 
+
+**Important:** All examples assume you are running scripts from the project root directory (`LEMO_Vocabulate/`). Use relative paths (e.g., `Dictionary/AEV_Dict.csv`) when specifying file locations. You must also specify a dictionary file in CSV format. An example dictionary (`AEV_Dict.csv`) is provided in the `Dictionary` folder, which was used in the original [Vocabulate](https://github.com/ryanboyd/Vocabulate) software.
 
 ```python 
 import pandas as pd
