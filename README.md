@@ -35,7 +35,7 @@ pip install -r requirements.txt
 
 ## Example usage 
 
-**Important:** All examples assume you are running scripts from the project root directory (`LEMO_Vocabulate/`). Use relative paths (e.g., `Dictionary/AEV_Dict.csv`) when specifying file locations. You must also specify a dictionary file in CSV format. An example dictionary (`AEV_Dict.csv`) is provided in the `Dictionary` folder, which was used in the original [Vocabulate](https://github.com/ryanboyd/Vocabulate) software.
+**Important:** All examples assume you are running scripts from the project root directory (`LEMO_Vocabulate/`). Use relative paths (e.g., `Dictionary/2019-07-30 - AEV_Dict.csv`) when specifying file locations. You must also specify a dictionary file in CSV format. An example dictionary (`Dictionary/2019-07-30 - AEV_Dict.csv`) is provided in the `Dictionary` folder, which was used in the original [Vocabulate](https://github.com/ryanboyd/Vocabulate) software.
 
 ```python 
 import pandas as pd
@@ -110,7 +110,7 @@ to
 **Use it like this:**
 ```python
 results = run_vocabulate_analysis(results = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv",
+    dict_file="Dictionary/2019-07-30 - AEV_Dict.csv",
     input_data=df,
     text_column="text",
     stopwords_file="stopwords.txt",
@@ -123,7 +123,7 @@ results = run_vocabulate_analysis(results = run_vocabulate_analysis(
 ``` python 
 stopwords = "the\nand\nis\nbe\nnot\n"
 results = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv",
+    dict_file="Dictionary/2019-07-30 - AEV_Dict.csv",
     input_data=df,
     text_column="text",
     stopwords_text=stopwords,
