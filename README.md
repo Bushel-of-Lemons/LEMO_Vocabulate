@@ -48,6 +48,12 @@ conda activate lemons
 pip install tqdm>=4.65
 ```
 
+### Option 3: Install from TestPyPI
+
+```bash
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ lemo-vocabulate
+```
+
 **Note:** This package requires Python >= 3.8
 
 ---
