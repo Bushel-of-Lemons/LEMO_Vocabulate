@@ -27,3 +27,7 @@ Thumbs.db
 
 # Readme files
 README_files/
+# Python package
+build/
+dist/
+*.egg-info/
