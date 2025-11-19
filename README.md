@@ -8,7 +8,7 @@ This Python package allows you to tokenize, clean, and analyze texts based on cu
 ```bib
 @article{vine2020natural,
   title={Natural emotion vocabularies as windows on distress and well-being},
-  author={Vine, Vera and Boyd, Ryan L. and Pennebaker, James W.},
+  author={Vine, Vera, Boyd, Ryan L. and Pennebaker, James W.},
   journal={Nature Communications},
   volume={11},
   number={1},
@@ -357,7 +357,7 @@ If you use this software in your research, please cite the original paper:
 ```bib
 @article{vine2020natural,
   title={Natural emotion vocabularies as windows on distress and well-being},
-  author={Vine, Vera and Boyd, Ryan L. and Pennebaker, James W.},
+  author={Vine, Vera, Boyd, Ryan L. and Pennebaker, James W.},
   journal={Nature Communications},
   volume={11},
   number={1},
