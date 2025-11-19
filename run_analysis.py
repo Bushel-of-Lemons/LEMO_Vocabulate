@@ -2,23 +2,13 @@ import pandas as pd
 import numpy as np
 import random  # do not alias
 
-from LEMO_vocabulate import run_vocabulate_analysis
+from lemo_vocabulate import run_vocabulate_analysis
 
 # Set random seeds
 random.seed(42)
 np.random.seed(42)
 
 n = 11  # number of rows
-
-# ---------------- Dictionary Analysis ----------------
-df = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv",
-    input_data="texts_to_analyze",
-    stopwords_file="stopwords.txt",
-    raw_counts=True,
-    output_csv="output.csv"
-)
-print(df.head())
 
 # ---------------- Test DataFrame ----------------
 test_df = pd.DataFrame({
@@ -42,7 +32,7 @@ print(test_df.head())
 
 # ---------------- Run Vocabulate ----------------
 df_results = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv",
+    dict_file="Dictionary/2019-07-30 - AEV_Dict.csv",
     input_data=test_df,
     text_column="text",
     stopwords_file="stopwords.txt",
