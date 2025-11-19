@@ -332,19 +332,6 @@ run_vocabulate_analysis(
     whitespace_method: str = 'new'   # Whitespace tokenization method
 )
 ```
-
----
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
----
-
-## License
-
-This work is licensed under the same terms as the original Vocabulate software. See the original repository for details.
-
 ---
 
 ## Citation
