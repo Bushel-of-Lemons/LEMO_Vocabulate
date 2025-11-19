@@ -62,23 +62,39 @@ pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://
 
 ```python
 import pandas as pd
-from lemo_vocabulate import run_vocabulate_analysis
+from lemo_vocabulate import run_vocabulate_analysis, get_data_path
 
-# Example using a DataFrame
+# Example using a DataFrame with included data files
 df = pd.DataFrame({
     "user_id": ["user_1", "user_2"],
     "text": ["This is a sample text.", "Another example text."]
 })
 
+# Use the included dictionary and stopwords
 results = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv",
+    dict_file=get_data_path("AEV_Dict.csv"),
     input_data=df,
     text_column="text",
-    stopwords_file="stopwords.txt",
+    stopwords_file=get_data_path("stopwords.txt"),
     raw_counts=True
 )
 
 print(results.head())
+```
+
+### Using Custom Files
+
+You can still use your own dictionary and stopwords files:
+
+```python
+# Use custom files
+results = run_vocabulate_analysis(
+    dict_file="path/to/your/custom_dict.csv",
+    input_data=df,
+    text_column="text",
+    stopwords_file="path/to/your/custom_stopwords.txt",
+    raw_counts=True
+)
 ```
 
 For more examples, see the `lemo_vocabulate_example.ipynb` notebook.

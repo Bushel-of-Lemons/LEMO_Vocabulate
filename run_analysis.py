@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import random  # do not alias
 
-from lemo_vocabulate import run_vocabulate_analysis
+from lemo_vocabulate import run_vocabulate_analysis, get_data_path
 
 # Set random seeds
 random.seed(42)
@@ -28,16 +28,28 @@ test_df = pd.DataFrame({
     ],
     "score": np.random.randn(n) * 10 + 50
 })
-print(test_df.head())
 
-# ---------------- Run Vocabulate ----------------
+print("=" * 50)
+print("Test DataFrame:")
+print("=" * 50)
+print(test_df.head())
+print()
+
+# ---------------- Run Vocabulate with bundled data files ----------------
+print("=" * 50)
+print("Running Vocabulate Analysis...")
+print("=" * 50)
+
 df_results = run_vocabulate_analysis(
-    dict_file="Dictionary/2019-07-30 - AEV_Dict.csv",
+    dict_file=get_data_path("AEV_Dict.csv"),  # Use bundled dictionary
     input_data=test_df,
     text_column="text",
-    stopwords_file="stopwords.txt",
+    stopwords_file=get_data_path("stopwords.txt"),  # Use bundled stopwords
     raw_counts=True,
     output_csv="pandas_output.csv"
 )
 
+print("\nAnalysis Results:")
+print("=" * 50)
 print(df_results.head())
+print()
