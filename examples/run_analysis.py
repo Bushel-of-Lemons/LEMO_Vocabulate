@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import random  # do not alias
-
 from LEMO_vocabulate import run_vocabulate_analysis
 
 # Set random seeds

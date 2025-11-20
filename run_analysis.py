@@ -40,6 +40,8 @@ print("=" * 50)
 print("Running Vocabulate Analysis...")
 print("=" * 50)
 
+
+
 df_results = run_vocabulate_analysis(
     dict_file=get_data_path("AEV_Dict.csv"),  # Use bundled dictionary
     input_data=test_df,
@@ -53,3 +55,6 @@ print("\nAnalysis Results:")
 print("=" * 50)
 print(df_results.head())
 print()
+
+df_results.to_csv("pandas_output.csv", index=False)
+print("Results saved to 'pandas_output.csv'")
