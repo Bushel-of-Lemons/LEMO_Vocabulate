@@ -362,7 +362,7 @@ run_vocabulate_analysis(
     csv_delimiter: str = ",",        # CSV delimiter
     csv_quote: str = '"',            # CSV quote character
     output_csv: str = None,          # Optional output CSV path
-    whitespace_method: str = 'new'   # 'new' (default, recommended 'legacy' (exact C# match)
+    whitespace_method: str = 'new'   # 'new' (default, recommended) or 'legacy' (exact C# match)
 )
 ```
 **Note about `whitespace_method`**
