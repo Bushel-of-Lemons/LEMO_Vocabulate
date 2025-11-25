@@ -167,10 +167,10 @@ df = pd.DataFrame({
 
 # Run analysis
 results = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv",
+    dict_file=get_data_path("AEV_Dict.csv"),
     input_data=df,
     text_column="text",
-    stopwords_file="stopwords.txt",
+    stopwords_file=get_data_path("stopwords.txt") ,
     raw_counts=True,
     output_csv="results.csv"
 )
@@ -183,17 +183,17 @@ print(results.head())
 ```python
 # Analyze a single text file
 results = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv",
+     dict_file=get_data_path("AEV_Dict.csv"),
     input_data="path/to/file.txt",
-    stopwords_file="stopwords.txt",
+    stopwords_file=get_data_path("stopwords.txt") ,
     raw_counts=True
 )
 
 # Analyze all .txt files in a folder
 results = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv",
+    dict_file=get_data_path("AEV_Dict.csv"),
     input_data="path/to/folder",
-    stopwords_file="stopwords.txt",
+    stopwords_file=get_data_path("stopwords.txt") ,
     raw_counts=False
 )
 ```
@@ -203,10 +203,10 @@ results = run_vocabulate_analysis(
 ```python
 # Run analysis
 df_results = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv",
+    get_data_path("AEV_Dict.csv"),
     input_data=df,
     text_column="text",
-    stopwords_file="stopwords.txt",
+    stopwords_file=get_data_path("stopwords.txt") ,
     raw_counts=True
 )
 
