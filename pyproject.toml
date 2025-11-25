@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lemo-vocabulate"
-version = "1.0.0"  # Increment version
+version = "1.0.1"  # Increment version
 authors = [
   { name="Steven Mesquiti", email="sm9518@princeton.edu" },
 ]

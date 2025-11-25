@@ -36,5 +36,5 @@ def get_data_path(filename):
     
     return str(data_path)
 
-__version__ = "0.1.4"
+__version__ = "1.0.1"
 __all__ = ['run_vocabulate_analysis', 'get_data_path']
