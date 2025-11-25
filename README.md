@@ -74,6 +74,9 @@ pip install -e .
 
 ## Quick Start
 
+**Tip:** For the best experience, we recommend running this in a [**Jupyter Notebook**](https://code.visualstudio.com/docs/datascience/jupyter-notebooks) in VSCode where you can interactively explore your results. 
+
+
 ```python
 import pandas as pd
 from lemo_vocabulate import run_vocabulate_analysis, get_data_path
