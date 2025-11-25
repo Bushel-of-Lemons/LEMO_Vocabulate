@@ -30,6 +30,12 @@ While the original Vocabulate software is powerful, this Python implementation o
 
 ## Installation
 
+**Note:** This package requires Python >= 3.8. 
+
+**Installation options:**
+- **Python + pip**: Download from [python.org/downloads](https://www.python.org/downloads/)
+- **Anaconda/Miniconda (recommended for data science)**: Download from [anaconda.com/download](https://www.anaconda.com/download) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
+
 ### Option 1: Install from PyPI (Recommended)
 
 The simplest way to install LEMO Vocabulate is via pip:
@@ -45,10 +51,11 @@ For better dependency management, we'd recommend using a conda environment:
 
 ```bash
 # Create and activate a new environment
-conda create -n lemo python=3.8 -y # 
+conda create -n lemo python=3.8 -y  # must have at least python 3.8
+conda activate lemo # run this line in terminal to activate environment
+conda install pandas numpy -y # run this line in terminal to install pandas and numpy, which help with data handling
 
-# Install the package
-pip install lemo-vocabulate
+pip install lemo-vocabulate # install the package
 ```
 
 ### Option 3: Install from Source
@@ -63,9 +70,6 @@ cd LEMO_Vocabulate
 # Install in editable mode
 pip install -e .
 ```
-
-**Note:** This package requires Python >= 3.8 and assumes you have python and pip already installed. Please refer to the [official Python installation guide](https://www.python.org/downloads/) if needed.
-
 ---
 
 ## Quick Start
