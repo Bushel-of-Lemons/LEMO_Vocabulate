@@ -1,9 +1,9 @@
 # Vocabulate Python Edition
 
-**Vocabulate** is a dictionary-based text analysis tool originally converted from C#.  
-This Python package allows you to tokenize, clean, and analyze texts based on custom dictionaries.
+**Vocabulate** is a dictionary-based text analysis tool originally developed in C# for Windows.  
+This Python package allows you to tokenize, clean, and analyze texts based on custom dictionaries across **any operating system** (Windows, macOS, Linux).
 
-**DISCLAIMER:** I do not take credit for this software. I simply reconfigured it to run using a higher-level programming language. All credit goes to the original authors: [Vine et al. (2020)](https://www.nature.com/articles/s41467-020-18349-0)
+**DISCLAIMER:** I do not take credit for this software. I simply reconfigured it to run using a higher-level programming language (i.e., python instead of C#). All credit goes to the original authors: [Vine et al. (2020)](https://www.nature.com/articles/s41467-020-18349-0)
 
 ```bib
 @article{vine2020natural,
@@ -18,43 +18,53 @@ This Python package allows you to tokenize, clean, and analyze texts based on cu
 }
 ```
 
+## Why This Package?
+
+While the original Vocabulate software is powerful, this Python implementation offers several advantages:
+
+- **Cross-platform compatibility**: Works on Windows, macOS, and Linux (original is Windows-only)
+- **Flexible input formats**: Analyze text from pandas DataFrames, CSV files, single text files, or folders of text files
+- **Modern Python ecosystem**: Integrates seamlessly with pandas, Jupyter notebooks, and other data science tools
+
 ---
 
 ## Installation
 
-Clone this repository and navigate to the project directory:
+### Option 1: Install from PyPI (Recommended)
+
+The simplest way to install LEMO Vocabulate is via pip:
 
 ```bash
+pip install lemo-vocabulate
+```
+That's it! The package includes the AEV dictionary and stopwords file, so you can start analyzing text immediately.
+
+### Option 2: Install in a Conda Environment
+
+For better dependency management, we'd recommend using a conda environment:
+
+```bash
+# Create and activate a new environment
+conda create -n lemo python=3.8 -y # 
+
+# Install the package
+pip install lemo-vocabulate
+```
+
+### Option 3: Install from Source
+
+If you want to modify the code or contribute to development:
+
+```bash
+# Clone the repository
 git clone https://github.com/Bushel-of-Lemons/LEMO_Vocabulate.git
 cd LEMO_Vocabulate
+
+# Install in editable mode
+pip install -e .
 ```
 
-### Option 1: Install with pip
-
-```bash
-pip install -r requirements.txt
-```
-
-### Option 2: Create a Conda environment (recommended)
-
-```bash
-# Create conda environment with Python 3.8
-conda create -n lemons python=3.8 pandas>=2.0 numpy>=1.24 pip -y
-
-# Activate the environment
-conda activate lemons
-
-# Install remaining dependencies
-pip install tqdm>=4.65
-```
-
-### Option 3: Install from TestPyPI
-
-```bash
-pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ lemo-vocabulate
-```
-
-**Note:** This package requires Python >= 3.8
+**Note:** This package requires Python >= 3.8 and assumes you have python and pip already installed. Please refer to the [official Python installation guide](https://www.python.org/downloads/) if needed.
 
 ---
 
@@ -84,7 +94,7 @@ print(results.head())
 
 ### Using Custom Files
 
-You can still use your own dictionary and stopwords files:
+You can still use your own dictionary and stopwords files, just provide the file paths:
 
 ```python
 # Use custom files
@@ -96,9 +106,6 @@ results = run_vocabulate_analysis(
     raw_counts=True
 )
 ```
-
-For more examples, see the `lemo_vocabulate_example.ipynb` notebook.
-
 ---
 
 ## Features
@@ -142,7 +149,7 @@ For more examples, see the `lemo_vocabulate_example.ipynb` notebook.
 
 ## Usage Examples
 
-### Analyzing a DataFrame
+### Analyzing a Pandas DataFrame
 
 ```python
 import pandas as pd
@@ -171,7 +178,7 @@ results = run_vocabulate_analysis(
 print(results.head())
 ```
 
-### Analyzing Text Files
+### Analyzing Text Files in a Folder or Single File
 
 ```python
 # Analyze a single text file
@@ -224,6 +231,8 @@ df_complete = df_complete[cols]
 
 Stopword removal allows you to exclude very common function words (e.g., `the`, `and`, `is`, `I`, `you`) that typically do not carry psychological or semantic content. In Vocabulate, stopwords are removed **after tokenization** and **before dictionary matching**, which improves the interpretability of dictionary categories.
 
+**This package includes a pre-configured stopwords file** that you can use immediately, or you can create your own custom stopwords file
+
 ### Using a Stopwords File (Recommended)
 
 Create a `.txt` file with one word per line:
@@ -240,11 +249,12 @@ to
 Use it in your analysis:
 
 ```python
+from lemo_vocabulate import run_vocabulate_analysis, get_data_path
 results = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv",
+    dict_file=get_data_path("AEV_Dict.csv"),
     input_data=df,
     text_column="text",
-    stopwords_file="stopwords.txt"
+    stopwords_file=get_data_path("stopwords.txt")  # Use bundled stopwords
 )
 ```
 
@@ -345,9 +355,19 @@ run_vocabulate_analysis(
     csv_delimiter: str = ",",        # CSV delimiter
     csv_quote: str = '"',            # CSV quote character
     output_csv: str = None,          # Optional output CSV path
-    whitespace_method: str = 'new'   # Whitespace tokenization method
+    whitespace_method: str = 'new'   # 'new' (default, recommended 'legacy' (exact C# match)
 )
 ```
+**Note about `whitespace_method`**
+
+This parameter controls how the `WC` (word count) metric is calculated and **only affects this one column**.
+
+- **`'new'` (default, recommended)**: Uses standard Python whitespace tokenization that handles edge cases (multiple spaces, leading/trailing whitespace) consistently. Best for new analyses.
+
+- **`'legacy'`**: Replicates the exact word counting behavior of the original C# Vocabulate software. Use this only if you need to exactly match results from the Windows version.
+
+All other metrics (tokenization, dictionary matching, category ratios) are identical between both methods.
+
 ---
 
 ## Citation
