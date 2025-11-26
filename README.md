@@ -47,7 +47,6 @@ pip install lemo-vocabulate
 ```
 That's it! The package includes the AEV dictionary and stopwords file, so you can start analyzing text immediately. These files are located in the `lemo_vocabulate/data/` directory of the installed package. Or, you can access them programmatically using the `get_data_path` function.
 
-
 ### Option 2: Install in a Conda Environment
 
 For better dependency management, we'd recommend using a conda environment:
@@ -77,8 +76,7 @@ pip install -e .
 
 ## Quick Start
 
-**Tip:** For the best experience, we recommend running this in a [**Jupyter Notebook**](https://code.visualstudio.com/docs/datascience/jupyter-notebooks) in VSCode where you can interactively explore your results. 
-
+**Tip:** For the best experience, we recommend running this in a [**Jupyter Notebook**](https://code.visualstudio.com/docs/datascience/jupyter-notebooks) via VSCode where you can interactively explore your results. 
 
 ```python
 import pandas as pd
@@ -90,7 +88,7 @@ df = pd.DataFrame({
     "text": ["This is a sample text.", "Another example text."]
 })
 
-# Use the included dictionary and stopwords
+# Use the included dictionary and stopwords and save as an object
 results = run_vocabulate_analysis(
     dict_file=get_data_path("AEV_Dict.csv"),
     input_data=df,
@@ -109,11 +107,11 @@ You can still use your own dictionary and stopwords files, just provide the file
 ```python
 # Use custom files
 results = run_vocabulate_analysis(
-    dict_file="path/to/your/custom_dict.csv",
+    dict_file="path/to/your/custom_dict.csv", # specify your own dictionary file
     input_data=df,
     text_column="text",
-    stopwords_file="path/to/your/custom_stopwords.txt",
-    raw_counts=True
+    stopwords_file="path/to/your/custom_stopwords.txt", # specify your own stopwords file
+    raw_counts=True # save the raw counts columns (optional)
 )
 ```
 ---
@@ -241,7 +239,7 @@ df_complete = df_complete[cols]
 
 Stopword removal allows you to exclude very common function words (e.g., `the`, `and`, `is`, `I`, `you`) that typically do not carry psychological or semantic content. In Vocabulate, stopwords are removed **after tokenization** and **before dictionary matching**, which improves the interpretability of dictionary categories.
 
-**This package includes a pre-configured stopwords file** that you can use immediately, or you can create your own custom stopwords file
+**This package includes a pre-configured stopwords file** that you can use immediately, or you can create your own custom stopwords file.
 
 ### Using a Stopwords File (Recommended)
 
