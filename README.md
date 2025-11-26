@@ -1,6 +1,7 @@
 # Vocabulate Python Edition
 
 **Vocabulate** is a dictionary-based text analysis tool originally developed in C# for Windows.  
+
 This Python package allows you to tokenize, clean, and analyze texts based on custom dictionaries across **any operating system** (Windows, macOS, Linux).
 
 **DISCLAIMER:** I do not take credit for this software. I simply reconfigured it to run using a higher-level programming language (i.e., python instead of C#). All credit goes to the original authors: [Vine et al. (2020)](https://www.nature.com/articles/s41467-020-18349-0)
@@ -24,7 +25,7 @@ While the original Vocabulate software is powerful, this Python implementation o
 
 - **Cross-platform compatibility**: Works on Windows, macOS, and Linux (original is Windows-only)
 - **Flexible input formats**: Analyze text from pandas DataFrames, CSV files, single text files, or folders of text files
-- **Modern Python ecosystem**: Integrates seamlessly with pandas, Jupyter notebooks, and other data science tools
+- **Modern Python ecosystem**: Integrates seamlessly with pandas, Jupyter notebooks, and other data science tools. 
 
 ---
 
@@ -336,8 +337,6 @@ For each category in the loaded dictionary (e.g., `Neg`, `Pos`, `AnxFear`, `Ange
 - `Neg_Unique` → Number of unique Neg words matched
 
 ---
-
-## Example Output
 
 ## Example Output
 
