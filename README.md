@@ -131,7 +131,7 @@ results = run_vocabulate_analysis(
 
 - **Dictionary matching with multi-word wildcards**
     - Compatible with custom dictionaries in CSV format
-    - Example dictionary provided: `Dictionary/AEV_Dict.csv`
+    - Dictionary provided: `lemo_vocabulate/data/AEV_Dict.csv`
     
     **Dictionary breakdown:**
     ```
@@ -270,7 +270,7 @@ results = run_vocabulate_analysis(
 ```python
 stopwords = "the\nand\nis\nbe\nnot\n"
 results = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv",
+    dict_file=get_data_path("AEV_Dict.csv"),
     input_data=df,
     text_column="text",
     stopwords_text=stopwords
