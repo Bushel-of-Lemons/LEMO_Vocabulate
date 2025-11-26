@@ -33,7 +33,9 @@ While the original Vocabulate software is powerful, this Python implementation o
 **Note:** This package requires Python >= 3.8. 
 
 **Installation options:**
+
 - **Python + pip**: Download from [python.org/downloads](https://www.python.org/downloads/)
+
 - **Anaconda/Miniconda (recommended for data science)**: Download from [anaconda.com/download](https://www.anaconda.com/download) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
 
 ### Option 1: Install from PyPI (Recommended)
@@ -43,7 +45,8 @@ The simplest way to install LEMO Vocabulate is via pip:
 ```bash
 pip install lemo-vocabulate
 ```
-That's it! The package includes the AEV dictionary and stopwords file, so you can start analyzing text immediately.
+That's it! The package includes the AEV dictionary and stopwords file, so you can start analyzing text immediately. These files are located in the `lemo_vocabulate/data/` directory of the installed package. Or, you can access them programmatically using the `get_data_path` function.
+
 
 ### Option 2: Install in a Conda Environment
 
@@ -338,14 +341,16 @@ For each category in the loaded dictionary (e.g., `Neg`, `Pos`, `AnxFear`, `Ange
 
 ## Example Output
 
-| Filename | text | WC | TC_Raw | TTR_Raw | TC_Clean | TTR_Clean | TC_NonDict | TTR_NonDict | DictPercent | CapturedText | Neg_CWR | Neg_CCR | Neg_Count | Neg_Unique | Pos_CWR | Pos_CCR | Pos_Count | Pos_Unique | AnxFear_CWR | AnxFear_CCR | AnxFear_Count | AnxFear_Unique |
-|----------|------|-----|--------|---------|----------|-----------|------------|-------------|-------------|--------------|---------|---------|-----------|------------|---------|---------|-----------|------------|-------------|-------------|---------------|----------------|
-| 0 | I am so agitated and aggravated! | 6 | 7 | 100.0 | 2 | 100.0 | 0 | 0.0 | 28.57 | agitated aggravated | 33.33 | 100.0 | 2 | 2 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
-| 1 | He was afraid of the dark.... | 6 | 8 | 100.0 | 3 | 100.0 | 2 | 100.0 | 12.5 | afraid | 16.67 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 16.67 | 100.0 | 1 | 1 |
-| 2 | Nothing to be afraid or agitated about. Yet I'm afraid, and it makes me want to agitate!! | 17 | 21 | 85.71 | 6 | 83.33 | 2 | 100.0 | 19.05 | afraid agitated afraid agitate | 11.76 | 50.0 | 4 | 2 | 0.0 | 0.0 | 0 | 0 | 5.88 | 50.0 | 2 | 1 |
-| 3 | I am so happy happy happy! And sad. | 8 | 10 | 80.0 | 4 | 50.0 | 0 | 0.0 | 40.0 | happy happy happy sad | 12.5 | 100.0 | 1 | 1 | 12.5 | 33.33 | 3 | 1 | 0.0 | 0.0 | 0 | 0 |
-| 4 | dislike disliked dislikes disliking/doo | 5 | 6 | 100.0 | 5 | 100.0 | 1 | 100.0 | 66.67 | dislike disliked dislikes disliking | 20.0 | 25.0 | 4 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
+## Example Output
 
+| Filename | text | WC | TC_Raw | TTR_Raw | TC_Clean | TTR_Clean | TC_NonDict | TTR_NonDict | DictPercent | CapturedText | Neg_CWR | Neg_CCR | Neg_Count | Neg_Unique | Pos_CWR | Pos_CCR | Pos_Count | Pos_Unique | AnxFear_CWR | AnxFear_CCR | AnxFear_Count | AnxFear_Unique | Anger_CWR | Anger_CCR | Anger_Count | Anger_Unique | Sadness_CWR | Sadness_CCR | Sadness_Count | Sadness_Unique | NegUndiff_CWR | NegUndiff_CCR | NegUndiff_Count | NegUndiff_Unique |
+|----------|------|-----|--------|---------|----------|-----------|------------|-------------|-------------|--------------|---------|---------|-----------|------------|---------|---------|-----------|------------|-------------|-------------|---------------|----------------|-----------|-----------|-------------|--------------|-------------|-------------|---------------|----------------|---------------|---------------|-----------------|------------------|
+| 0 | I am so angry and agitated! | 6 | 7 | 100.0 | 2 | 100.0 | 0 | 0.0 | 28.57 | angry agitated | 33.33 | 100.0 | 2 | 2 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 16.67 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
+| 1 | I'm feeling really happy. Happy but also nervous. | 8 | 12 | 83.33 | 5 | 80.0 | 2 | 100.0 | 25.0 | happy happy nervous | 12.5 | 100.0 | 1 | 1 | 12.5 | 50.0 | 2 | 1 | 12.5 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
+| 2 | It's been an emotional rollercoaster… | 5 | 8 | 100.0 | 4 | 100.0 | 3 | 100.0 | 12.5 | emotional | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 20.0 | 100.0 | 1 | 1 |
+| 3 | It was like a combo of anxiety/agitation. | 7 | 10 | 100.0 | 4 | 100.0 | 2 | 100.0 | 20.0 | anxiety agitation | 28.57 | 100.0 | 2 | 2 | 0.0 | 0.0 | 0 | 0 | 14.29 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
+| 4 | I had a good day. :) | 6 | 7 | 100.0 | 3 | 100.0 | 3 | 100.0 | 0.0 | | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
+| 5 | I dislike disliking people, but I can't help but dislike this person! | 12 | 16 | 81.25 | 7 | 85.71 | 4 | 100.0 | 18.75 | dislike disliking dislike | 8.33 | 33.33 | 3 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
 ---
 
 ## Function Parameters
