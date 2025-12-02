@@ -4,7 +4,7 @@
 
 This Python package allows you to tokenize, clean, and analyze texts based on custom dictionaries across **any operating system** (Windows, macOS, Linux).
 
-**DISCLAIMER:** I do not take credit for this software. I simply reconfigured it to run using a higher-level programming language (i.e., python instead of C#). All credit goes to the original authors: [Vine et al. (2020)](https://www.nature.com/articles/s41467-020-18349-0)
+**DISCLAIMER:** All credit for formulating how to compute emotion vocabularies goes to the authors of Vocabulate [Vine et al. (2020)](https://www.nature.com/articles/s41467-020-18349-0). I do not take credit for this software. I simply reconfigured this formula to run in python instead of C#. 
 
 ```bib
 @article{vine2020natural,
@@ -29,15 +29,25 @@ While the original Vocabulate software is powerful, this Python implementation o
 
 ---
 
+## Quick Start
+
+**Tip:** For the best experience, we recommend running this in a [**Jupyter Notebook**](https://code.visualstudio.com/docs/datascience/jupyter-notebooks) via VSCode where you can interactively explore your results.
+
+### New to Python or VS Code?
+
+If you're new to Python development, we recommend:
+
+1. **Install Python and VS Code**: Follow the [VS Code Python tutorial](https://code.visualstudio.com/docs/python/python-tutorial) for step-by-step setup instructions
+2. **Verify your installation**: Open a terminal and run:
+    ```bash
+    python --version  # Should show Python 3.8 or higher
+    pip --version     # Should show pip is installed
+    ```
+3. **Install the package**: Follow the [Installation](#installation) instructions below
+
 ## Installation
 
 **Note:** This package requires Python >= 3.8. 
-
-**Installation options:**
-
-- **Python + pip**: Download from [python.org/downloads](https://www.python.org/downloads/)
-
-- **Anaconda/Miniconda (recommended for data science)**: Download from [anaconda.com/download](https://www.anaconda.com/download) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
 
 ### Option 1: Install from PyPI (Recommended)
 
@@ -75,9 +85,7 @@ pip install -e .
 ```
 ---
 
-## Quick Start
-
-**Tip:** For the best experience, we recommend running this in a [**Jupyter Notebook**](https://code.visualstudio.com/docs/datascience/jupyter-notebooks) via VSCode where you can interactively explore your results. 
+### Basic Example
 
 ```python
 import pandas as pd
@@ -238,7 +246,7 @@ df_complete = df_complete[cols]
 
 ## Stopwords
 
-Stopword removal allows you to exclude very common function words (e.g., `the`, `and`, `is`, `I`, `you`) that typically do not carry psychological or semantic content. In Vocabulate, stopwords are removed **after tokenization** and **before dictionary matching**, which improves the interpretability of dictionary categories.
+Stopword removal allows you to exclude very common function words (e.g., `the`, `and`, `is`, `I`, `you`). In Vocabulate, stopwords are removed **after tokenization** and **before dictionary matching**, which improves the interpretability of dictionary categories.
 
 **This package includes a pre-configured stopwords file** that you can use immediately, or you can create your own custom stopwords file.
 
@@ -324,15 +332,15 @@ For each category in the loaded dictionary (e.g., `Neg`, `Pos`, `AnxFear`, `Ange
 
 | Column Suffix | Description                                                                                                                                                  |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `_CWR`        | **Category Word Ratio**: percentage of unique words in the category relative to total words in text: `unique_count / WC * 100`                               |
+| `_CWR`        | **Category Word Ratio**: percentage of unique words in the category relative to total words in text. This is the critical measure used in the Original Vine et al. (2020) paper: `unique_count / WC * 100`                               |
 | `_CCR`        | **Category Concept Ratio**: percentage of unique words in the category relative to all matched tokens in that category: `unique_count / total_count * 100`   |
 | `_Count`      | **Raw Count**: total number of occurrences of words from this category in the text (only if `raw_counts=True`)                                              |
 | `_Unique`     | **Unique Count**: number of unique words in the text that matched this category (only if `raw_counts=True`)                                                 |
 
 #### Example: Category "Neg"
 
-- `Neg_CWR` → % of total words in the text that were unique Neg words
-- `Neg_CCR` → % of category words that were unique
+- `Neg_CWR` → % of total words in the text that were unique Neg words relative to total word count
+- `Neg_CCR` → % of category words that were unique Neg words relative to all words in the Neg category
 - `Neg_Count` → Total Neg words matched
 - `Neg_Unique` → Number of unique Neg words matched
 
@@ -371,11 +379,22 @@ run_vocabulate_analysis(
 
 This parameter controls how the `WC` (word count) metric is calculated and **only affects this one column**.
 
-- **`'new'` (default, recommended)**: Uses standard Python whitespace tokenization that handles edge cases (multiple spaces, leading/trailing whitespace) consistently. Best for new analyses.
+- **`'new'` (default, recommended)**: 
+Uses Python's standard `split()` method with additional handling for URLs and file paths:
+- Splits text on whitespace
+- Preserves URLs and tokens with periods (e.g., `http://example.com`, `file.txt`) as single tokens
+- Handles multiple consecutive spaces, leading/trailing whitespace consistently
+- **Best for new analyses** and most use cases
 
-- **`'legacy'`**: Replicates the exact word counting behavior of the original C# Vocabulate software. Use this only if you need to exactly match results from the Windows version.
 
-All other metrics (tokenization, dictionary matching, category ratios) are identical between both methods.
+- **`'legacy'`**: 
+Replicates the exact whitespace tokenization from the original C# Vocabulate:
+- Simple split on whitespace only
+- May produce different counts for text with URLs, file paths, or unusual spacing
+- **Use this only if** you need to exactly replicate results from the original Windows Vocabulate software
+
+
+**Important:** The choice of `whitespace_method` only affects the `WC` (word count) column. All other metrics (tokenization, dictionary matching, category ratios) are identical between both methods.
 
 ---
 

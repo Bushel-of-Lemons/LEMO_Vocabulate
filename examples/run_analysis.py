@@ -11,9 +11,9 @@ n = 11  # number of rows
 
 # ---------------- Dictionary Analysis ----------------
 df = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv",
+    dict_file=get_data_path("AEV_Dict.csv"),
     input_data="texts_to_analyze",
-    stopwords_file="stopwords.txt",
+    stopwords_file=get_data_path("stopwords.txt"),  # Use bundled stopwords
     raw_counts=True,
     output_csv="output.csv"
 )
@@ -41,10 +41,10 @@ print(test_df.head())
 
 # ---------------- Run Vocabulate ----------------
 df_results = run_vocabulate_analysis(
-    dict_file="Dictionary/AEV_Dict.csv",
+    dict_file=get_data_path("AEV_Dict.csv"),
     input_data=test_df,
     text_column="text",
-    stopwords_file="stopwords.txt",
+    stopwords_file=get_data_path("stopwords.txt"),
     raw_counts=True,
     output_csv="pandas_output.csv"
 )
