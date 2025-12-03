@@ -29,7 +29,7 @@ While the original Vocabulate software is powerful, this Python implementation o
 
 ---
 
-## Quick Start
+## Environment Setup
 
 **Tip:** For the best experience, we recommend running this in a [**Jupyter Notebook**](https://code.visualstudio.com/docs/datascience/jupyter-notebooks) via VSCode where you can interactively explore your results.
 
@@ -71,7 +71,7 @@ If you're completely new to Python, don't worry! Here's a step-by-step guide:
 1. Download from [code.visualstudio.com](https://code.visualstudio.com/)
 2. Install the Python extension: [VS Code Python tutorial](https://code.visualstudio.com/docs/python/python-tutorial)
 
-#### Step 4: Verify your installation
+#### Step 4: Verify your Python Installation
 
 Open Terminal/Command Prompt again and run:
 ```bash
@@ -79,11 +79,15 @@ python --version  # Should show Python 3.8 or higher
 pip --version     # Should show pip is installed
 ```
 
-## Installation
+#### Step 5: Install LEMO Vocabulate & Get Started
+
+Now you're ready to install the package and start analyzing text! Open your VS Code terminal, your system terminal, or whatever coding interface you're using and navigate to the Installing LEMO Vocabulate Library section below.
+
+## Installing LEMO Vocabulate Library
 
 ### Option 1: Install from PyPI (Recommended)
 
-Once you've verified python's installation, the simplest way to install LEMO Vocabulate is via pip:
+The simplest way to install LEMO Vocabulate is via pip. In your terminal, run:
 
 ```bash
 pip install lemo-vocabulate
@@ -100,7 +104,7 @@ conda create -n lemo python=3.8 -y  # must have at least python 3.8
 conda activate lemo # run this line in terminal to activate environment
 conda install pandas numpy -y # run this line in terminal to install pandas and numpy, which help with data handling
 
-pip install lemo-vocabulate # install the package
+pip install lemo-vocabulate # install the package in the environment
 ```
 
 ### Option 3: Install from Source
@@ -425,7 +429,6 @@ Replicates the exact whitespace tokenization from the original C# Vocabulate:
 - Simple split on whitespace only
 - May produce different counts for text with URLs, file paths, or unusual spacing
 - **Use this only if** you need to exactly replicate results from the original Windows Vocabulate software
-
 
 **Important:** The choice of `whitespace_method` only affects the `WC` (word count) column. All other metrics (tokenization, dictionary matching, category ratios) are identical between both methods.
 
