@@ -35,23 +35,55 @@ While the original Vocabulate software is powerful, this Python implementation o
 
 ### New to Python or VS Code?
 
-If you're new to Python development, we recommend:
+If you're completely new to Python, don't worry! Here's a step-by-step guide:
 
-1. **Install Python and VS Code**: Follow the [VS Code Python tutorial](https://code.visualstudio.com/docs/python/python-tutorial) for step-by-step setup instructions
-2. **Verify your installation**: Open a terminal and run:
-    ```bash
-    python --version  # Should show Python 3.8 or higher
-    pip --version     # Should show pip is installed
-    ```
-3. **Install the package**: Follow the [Installation](#installation) instructions below
+#### Step 1: Check if you have Python
+
+1. **Open Terminal** 
+   - **Mac**: Applications → Utilities → Terminal
+   - **Windows**: Search for "Command Prompt" or "PowerShell"
+   - **Linux**: Press Ctrl+Alt+T
+   
+2. Type this command and press Enter:
+   ```bash
+   python --version
+   ```
+   
+3. **What you should see:**
+   - ✅ `Python 3.8.x` or higher → You're ready! Skip to [Installation](#installation)
+   - ❌ `command not found` or version lower than 3.8 → Continue to next step
+
+#### Step 2: Install Python (if needed)
+
+**Option A: Install Python directly**
+1. Go to [python.org/downloads](https://www.python.org/downloads/)
+2. Download Python 3.8 or higher
+3. Run the installer and follow the prompts
+4. ⚠️ **Important**: Check the box that says "Add Python to PATH"
+
+**Option B: Install via Anaconda (recommended for data science)**
+1. Go to [anaconda.com/download](https://www.anaconda.com/download)
+2. Download and install Anaconda
+3. This includes Python, conda, and many useful packages
+
+#### Step 3: Install VS Code (optional but highly recommended)
+
+1. Download from [code.visualstudio.com](https://code.visualstudio.com/)
+2. Install the Python extension: [VS Code Python tutorial](https://code.visualstudio.com/docs/python/python-tutorial)
+
+#### Step 4: Verify your installation
+
+Open Terminal/Command Prompt again and run:
+```bash
+python --version  # Should show Python 3.8 or higher
+pip --version     # Should show pip is installed
+```
 
 ## Installation
 
-**Note:** This package requires Python >= 3.8. 
-
 ### Option 1: Install from PyPI (Recommended)
 
-The simplest way to install LEMO Vocabulate is via pip:
+Once you've verified python's installation, the simplest way to install LEMO Vocabulate is via pip:
 
 ```bash
 pip install lemo-vocabulate
@@ -73,7 +105,7 @@ pip install lemo-vocabulate # install the package
 
 ### Option 3: Install from Source
 
-If you want to modify the code or contribute to development:
+If you want to modify the code or contribute to this library's development:
 
 ```bash
 # Clone the repository
@@ -351,11 +383,12 @@ For each category in the loaded dictionary (e.g., `Neg`, `Pos`, `AnxFear`, `Ange
 | Filename | text | WC | TC_Raw | TTR_Raw | TC_Clean | TTR_Clean | TC_NonDict | TTR_NonDict | DictPercent | CapturedText | Neg_CWR | Neg_CCR | Neg_Count | Neg_Unique | Pos_CWR | Pos_CCR | Pos_Count | Pos_Unique | AnxFear_CWR | AnxFear_CCR | AnxFear_Count | AnxFear_Unique | Anger_CWR | Anger_CCR | Anger_Count | Anger_Unique | Sadness_CWR | Sadness_CCR | Sadness_Count | Sadness_Unique | NegUndiff_CWR | NegUndiff_CCR | NegUndiff_Count | NegUndiff_Unique |
 |----------|------|-----|--------|---------|----------|-----------|------------|-------------|-------------|--------------|---------|---------|-----------|------------|---------|---------|-----------|------------|-------------|-------------|---------------|----------------|-----------|-----------|-------------|--------------|-------------|-------------|---------------|----------------|---------------|---------------|-----------------|------------------|
 | 0 | I am so angry and agitated! | 6 | 7 | 100.0 | 2 | 100.0 | 0 | 0.0 | 28.57 | angry agitated | 33.33 | 100.0 | 2 | 2 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 16.67 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
-| 1 | I'm feeling really happy. Happy but also nervous. | 8 | 12 | 83.33 | 5 | 80.0 | 2 | 100.0 | 25.0 | happy happy nervous | 12.5 | 100.0 | 1 | 1 | 12.5 | 50.0 | 2 | 1 | 12.5 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
-| 2 | It's been an emotional rollercoaster… | 5 | 8 | 100.0 | 4 | 100.0 | 3 | 100.0 | 12.5 | emotional | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 20.0 | 100.0 | 1 | 1 |
+| 1 | I'm feeling really happy. Happy but also nervous. | 8 | 10 | 80.0 | 4 | 75.0 | 1 | 100.0 | 30.0 | happy happy nervous | 12.5 | 100.0 | 1 | 1 | 12.5 | 50.0 | 2 | 1 | 12.5 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
+| 2 | It's been an emotional rollercoaster… | 5 | 6 | 100.0 | 3 | 100.0 | 2 | 100.0 | 16.67 | emotional | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 20.0 | 100.0 | 1 | 1 |
 | 3 | It was like a combo of anxiety/agitation. | 7 | 10 | 100.0 | 4 | 100.0 | 2 | 100.0 | 20.0 | anxiety agitation | 28.57 | 100.0 | 2 | 2 | 0.0 | 0.0 | 0 | 0 | 14.29 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
 | 4 | I had a good day. :) | 6 | 7 | 100.0 | 3 | 100.0 | 3 | 100.0 | 0.0 | | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
-| 5 | I dislike disliking people, but I can't help but dislike this person! | 12 | 16 | 81.25 | 7 | 85.71 | 4 | 100.0 | 18.75 | dislike disliking dislike | 8.33 | 33.33 | 3 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
+| 5 | I dislike disliking people, but I can't help but dislike this person! | 12 | 14 | 78.57 | 6 | 83.33 | 3 | 100.0 | 21.43 | dislike disliking dislike | 8.33 | 33.33 | 3 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
+| 6 | I felt bad about work, and I felt bad about my relationships, but I was mostly mad at myself. | 19 | 22 | 72.73 | 7 | 71.43 | 4 | 75.0 | 13.64 | bad bad mad | 5.26 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 5.26 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 5.26 | 50.0 | 2 | 1 |
 ---
 
 ## Function Parameters
