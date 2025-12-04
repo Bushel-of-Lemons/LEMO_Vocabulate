@@ -21,7 +21,7 @@ This Python package allows you to tokenize, clean, and analyze texts based on cu
 
 ## Why This Package?
 
-While the original Vocabulate software is powerful, this Python implementation offers several advantages:
+While the original Vocabulate software is powerful, this Python implementation offers several alternatives:
 
 - **Cross-platform compatibility**: Works on Windows, macOS, and Linux (original is Windows-only)
 - **Flexible input formats**: Analyze text from pandas DataFrames, CSV files, single text files, or folders of text files
@@ -50,7 +50,7 @@ If you're completely new to Python, don't worry! Here's a step-by-step guide:
    ```
    
 3. **What you should see:**
-   - ✅ `Python 3.8.x` or higher → You're ready! Skip to [Installation](#installation)
+   - ✅ `Python 3.8.x` or higher → You're ready! Skip to [Installation](#installing-lemo-vocabulate-library)
    - ❌ `command not found` or version lower than 3.8 → Continue to next step
 
 #### Step 2: Install Python (if needed)
