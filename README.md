@@ -85,16 +85,9 @@ Now you're ready to install the package and start analyzing text! Open your VS C
 
 ## Installing LEMO Vocabulate Library
 
-### Option 1: Install from PyPI (Recommended)
+First, create a jupyter notebook in VS Code by opening the command palette (Ctrl+Shift+P or Cmd+Shift+P) and selecting "Jupyter: Create New Jupyter Notebook". Then navigate to the terminal in VS Code (View -> Terminal) to run the installation commands below. 
 
-The simplest way to install LEMO Vocabulate is via pip. In your terminal, run:
-
-```bash
-pip install lemo-vocabulate
-```
-That's it! The package includes the AEV dictionary and stopwords file, so you can start analyzing text immediately. These files are located in the `lemo_vocabulate/data/` directory of the installed package. Or, you can access them programmatically using the `get_data_path` function.
-
-### Option 2: Install in a Conda Environment
+### Option 1: Install in a Conda Environment (Recommended)
 
 For better dependency management, we'd recommend using a conda environment:
 
@@ -106,6 +99,16 @@ conda install pandas numpy -y # run this line in terminal to install pandas and 
 
 pip install lemo-vocabulate # install the package in the environment
 ```
+
+### Option 2: Install from PyPI
+
+The simplest way to install LEMO Vocabulate is via pip. In your terminal, run:
+
+```bash
+pip install lemo-vocabulate
+```
+That's it! The package includes the AEV dictionary and stopwords file, so you can start analyzing text immediately. These files are located in the `lemo_vocabulate/data/` directory of the installed package. Or, you can access them programmatically using the `get_data_path` function.
+
 
 ### Option 3: Install from Source
 
@@ -120,6 +123,11 @@ cd LEMO_Vocabulate
 pip install -e .
 ```
 ---
+## Quick Start Guide
+
+At this stage, you can use the `Example-notebook.ipynb` included in the repository for a hands-on introduction. Or, you can follow the examples below to get started quickly by copying and pasting the below code into your own Jupyter notebook cells or Python script and press execute! 
+
+**Note** You may be prompted to install additional dependencies (like pandas or .ipynb extensions) if you don't have them already. Just follow the instructions to complete the installation.
 
 ### Basic Example
 
@@ -368,7 +376,7 @@ For each category in the loaded dictionary (e.g., `Neg`, `Pos`, `AnxFear`, `Ange
 
 | Column Suffix | Description                                                                                                                                                  |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `_CWR`        | **Category Word Ratio**: percentage of unique words in the category relative to total words in text. This is the critical measure used in the Original Vine et al. (2020) paper: `unique_count / WC * 100`                               |
+| `_CWR`        | **Category Word Ratio**: percentage of unique words in the category relative to total words in text. This is the critical measure (i.e., Natural Emotion Vocabularies) used in the Original Vine et al. (2020) paper: `unique_count / WC * 100`                               |
 | `_CCR`        | **Category Concept Ratio**: percentage of unique words in the category relative to all matched tokens in that category: `unique_count / total_count * 100`   |
 | `_Count`      | **Raw Count**: total number of occurrences of words from this category in the text (only if `raw_counts=True`)                                              |
 | `_Unique`     | **Unique Count**: number of unique words in the text that matched this category (only if `raw_counts=True`)                                                 |
@@ -409,7 +417,7 @@ run_vocabulate_analysis(
     csv_delimiter: str = ",",        # CSV delimiter
     csv_quote: str = '"',            # CSV quote character
     output_csv: str = None,          # Optional output CSV path
-    whitespace_method: str = 'new'   # 'new' (default, recommended) or 'legacy' (exact C# match)
+    whitespace_method: str = 'new'   # 'new' (default, recommended) or 'old' (exact C# match)
 )
 ```
 **Note about `whitespace_method`**
@@ -418,25 +426,25 @@ This parameter controls how the `WC` (word count) metric is calculated and **onl
 
 - **`'new'` (default, recommended)**: 
 Uses Python's standard `split()` method with additional handling for URLs and file paths:
-- Splits text on whitespace
+- Splits text on whitespace 
 - Preserves URLs and tokens with periods (e.g., `http://example.com`, `file.txt`) as single tokens
 - Handles multiple consecutive spaces, leading/trailing whitespace consistently
 - **Best for new analyses** and most use cases
 
-
-- **`'legacy'`**: 
+- **`'old'`**: 
 Replicates the exact whitespace tokenization from the original C# Vocabulate:
 - Simple split on whitespace only
 - May produce different counts for text with URLs, file paths, or unusual spacing
 - **Use this only if** you need to exactly replicate results from the original Windows Vocabulate software
 
 **Important:** The choice of `whitespace_method` only affects the `WC` (word count) column. All other metrics (tokenization, dictionary matching, category ratios) are identical between both methods.
+We recommend using the default `'new'` method for all new analyses unless you have a specific reason to replicate legacy results. For example, the `new` method will count "anxiety/sadness" as 2 words while the `old` method will count it as 1 word.
 
 ---
 
 ## Citation
 
-If you use this software in your research, please cite the original paper:
+If you use this software in your research, please cite the original paper and the preprint for the paper:
 
 ```bib
 @article{vine2020natural,
@@ -448,5 +456,16 @@ If you use this software in your research, please cite the original paper:
   pages={4525},
   year={2020},
   doi={10.1038/s41467-020-18349-0}
+}
+```
+
+
+```bib
+@article{sahi2025large,
+    title={Large natural emotion vocabularies are linked with better mental health in psychotherapeutic conversations},
+    author={Sahi, Razia, Hull, Thomas D., Vine, Vera, and Nook, Erik C.},
+    journal={Research Square},
+    year={2025},
+    doi={10.21203/rs.3.rs-6932501/v1}
 }
 ```
