@@ -9,7 +9,7 @@ This Python package allows you to tokenize, clean, and analyze texts based on cu
 ```bib
 @article{vine2020natural,
   title={Natural emotion vocabularies as windows on distress and well-being},
-  author={Vine, Vera, Boyd, Ryan L. and Pennebaker, James W.},
+  author={Vine, Vera and Boyd, Ryan L. and Pennebaker, James W.},
   journal={Nature Communications},
   volume={11},
   number={1},
@@ -96,7 +96,6 @@ For better dependency management, we'd recommend using a conda environment:
 conda create -n lemo python=3.8 -y  # must have at least python 3.8
 conda activate lemo # run this line in terminal to activate environment
 conda install pandas numpy -y # run this line in terminal to install pandas and numpy, which help with data handling
-
 pip install lemo-vocabulate # install the package in the environment
 ```
 
@@ -285,7 +284,6 @@ df_complete = df_results.drop(['text', 'Filename'], axis=1).merge(
 cols = ['text_id', 'text'] + [col for col in df_complete.columns if col not in ['text_id', 'text']]
 df_complete = df_complete[cols]
 ```
-
 ---
 
 ## Stopwords
@@ -437,8 +435,7 @@ Replicates the exact whitespace tokenization from the original C# Vocabulate:
 - May produce different counts for text with URLs, file paths, or unusual spacing
 - **Use this only if** you need to exactly replicate results from the original Windows Vocabulate software
 
-**Important:** The choice of `whitespace_method` only affects the `WC` (word count) column. All other metrics (tokenization, dictionary matching, category ratios) are identical between both methods.
-We recommend using the default `'new'` method for all new analyses unless you have a specific reason to replicate legacy results. For example, the `new` method will count "anxiety/sadness" as 2 words while the `old` method will count it as 1 word.
+**Important:** The choice of `whitespace_method` only affects the `WC` (word count) column. All other metrics (tokenization, dictionary matching, category ratios) are identical between both methods. We recommend using the default `new` method for all new analyses unless you have a specific reason to replicate legacy results. For example, the `new` method will count "anxiety/sadness" as 2 words while the `old` method will count it as 1 word.
 
 ---
 
@@ -459,13 +456,17 @@ If you use this software in your research, please cite the original paper and th
 }
 ```
 
-
 ```bib
-@article{sahi2025large,
-    title={Large natural emotion vocabularies are linked with better mental health in psychotherapeutic conversations},
-    author={Sahi, Razia, Hull, Thomas D., Vine, Vera, and Nook, Erik C.},
-    journal={Research Square},
-    year={2025},
-    doi={10.21203/rs.3.rs-6932501/v1}
+@misc{sahi_large_2025,
+	title = {Large natural emotion vocabularies are linked with better mental health in psychotherapeutic conversations},
+	url = {https://www.researchsquare.com/article/rs-6932501/v1},
+	doi = {10.21203/rs.3.rs-6932501/v1},
+	urldate = {2025-12-05},
+	publisher = {Research Square},
+	author = {Sahi, Razia and Hull, Thomas and Vine, Vera and Nook, Erik},
+	month = jun,
+	year = {2025},
+	note = {ISSN: 2693-5015},
+	file = {Full Text PDF:files/10200/Sahi et al. - 2025 - Large natural emotion vocabularies are linked with better mental health in psychotherapeutic convers.pdf:application/pdf},
 }
 ```
