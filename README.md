@@ -384,7 +384,7 @@ For each category in the loaded dictionary (e.g., `Neg`, `Pos`, `AnxFear`, `Ange
 #### Example: Category "Neg"
 
 - `Neg_CWR` → % of total words in the text that were unique Neg words relative to total word count
-- `Neg_CCR` → % of category words that were unique Neg words relative to all words in the Neg category
+- `Neg_CCR` → % of category words that were unique Neg words relative to the total number of words used that fall into the Neg category
 - `Neg_Count` → Total Neg words matched
 - `Neg_Unique` → Number of unique Neg words matched
 
@@ -443,7 +443,7 @@ Replicates the exact whitespace tokenization from the original C# Vocabulate:
 
 ## Citation
 
-If you use this software in your research, please cite the original paper and the preprint for the paper:
+If you use this software in your research, please cite the original paper that develops the emotion vocabulary technique (Vine et al., 2020) and also the preprint for the current paper for which we developed this python package (Sahi et al., under review)
 
 ```bib
 @article{vine2020natural,
