@@ -290,7 +290,7 @@ df_complete = df_complete[cols]
 
 Stopword removal allows you to exclude very common function words (e.g., `the`, `and`, `is`, `I`, `you`). In Vocabulate, stopwords are removed **after tokenization** and **before dictionary matching**, which improves the interpretability of dictionary categories.
 
-**Note:** The stopwords file we provide includes the term "hopefully" so this word will not be counted as a positive emotion word, in line with the original Vocabulate tool and LIWC22.
+**Note:** The stopwords file we provide includes the term "hopefully" so this word will not be counted as a positive emotion word, in line with the original Vocabulate tool and [LIWC22](https://www.liwc.app/).
 
 **This package includes a pre-configured stopwords file** that you can use immediately, or you can create your own custom stopwords file.
 
