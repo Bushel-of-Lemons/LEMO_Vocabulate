@@ -422,14 +422,14 @@ run_vocabulate_analysis(
 
 This parameter controls how the `WC` (word count) metric is calculated and **only affects this one column**.
 
-- **`'new'` (default, recommended)**: 
+**`'new'` (default, recommended)**: 
 Uses Python's standard `split()` method with additional handling for URLs and file paths:
 - Splits text on whitespace 
 - Preserves URLs and tokens with periods (e.g., `http://example.com`, `file.txt`) as single tokens
 - Handles multiple consecutive spaces, leading/trailing whitespace consistently
 - **Best for new analyses** and most use cases
 
-- **`'old'`**: 
+**`'old'`**: 
 Replicates the exact whitespace tokenization from the original C# Vocabulate:
 - Simple split on whitespace only
 - May produce different counts for text with URLs, file paths, or unusual spacing
