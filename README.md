@@ -50,7 +50,7 @@ If you're completely new to Python, don't worry! Here's a step-by-step guide:
    ```
    
 3. **What you should see:**
-   - ✅ `Python 3.8.x` or higher → You're ready! Skip to [Installation](#installing-lemo-vocabulate-library)
+   - ✅ `Python 3.8.x` or higher → You're ready! Skip to [Installing LEMO Vocabulate Library](#installing-lemo-vocabulate-library)
    - ❌ `command not found` or version lower than 3.8 → Continue to next step
 
 #### Step 2: Install Python (if needed)
@@ -422,7 +422,7 @@ run_vocabulate_analysis(
 ```
 **Note about `whitespace_method`**
 
-This parameter controls how the `WC` (word count) metric is calculated and **only affects this one column**.
+This parameter controls how the `WC` (word count) metric is calculated and **affects all metrics that use word count in their computation**.
 
 **`'new'` (default, recommended)**: 
 Uses Python's standard `split()` method with additional handling for URLs and file paths:
@@ -437,7 +437,11 @@ Replicates the exact whitespace tokenization from the original C# Vocabulate:
 - May produce different counts for text with URLs, file paths, or unusual spacing
 - **Use this only if** you need to exactly replicate results from the original Windows Vocabulate software
 
-**Important:** The choice of `whitespace_method` only affects the `WC` (word count) column. All other metrics (tokenization, dictionary matching, category ratios) are identical between both methods. We recommend using the default `new` method for all new analyses unless you have a specific reason to replicate legacy results. For example, the `new` method will count "anxiety/sadness" as 2 words while the `old` method will count it as 1 word.
+**Important:** The choice of `whitespace_method` affects:
+- **`WC`**: The raw word count column
+- **`_CWR` columns** (e.g., `Neg_CWR`, `Pos_CWR`): These are calculated as `unique_count / WC * 100`, so changes in `WC` affect these **critical emotion vocabulary metrics**
+
+All other metrics (tokenization, dictionary matching, raw counts like `_Count`, unique counts like `_Unique`, and `_CCR` values) are **not** affected by this parameter. We recommend using the default `new` method for all new analyses unless you have a specific reason to replicate legacy results. For example, the `new` method will count "anxiety/sadness" as 2 words while the `old` method will count it as 1 word, which will affect the denominator in all `_CWR` calculations.
 
 ---
 
