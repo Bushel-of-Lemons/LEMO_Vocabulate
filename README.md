@@ -6,6 +6,8 @@ This Python package allows you to tokenize, clean, and analyze texts based on cu
 
 **DISCLAIMER:** All credit for formulating how to compute emotion vocabularies goes to the authors of Vocabulate [Vine et al. (2020)](https://www.nature.com/articles/s41467-020-18349-0). I do not take credit for this software. I simply reconfigured this formula to run in python instead of C#. 
 
+**MAINTENANCE NOTE:** This package is provided as-is and is not actively maintained. While the core functionality is stable, users should feel free to fork the repository and adapt the code to meet their specific needs. Bug reports and pull requests are welcome, but response times may vary.
+
 ```bib
 @article{vine2020natural,
   title={Natural emotion vocabularies as windows on distress and well-being},
@@ -447,7 +449,7 @@ All other metrics (tokenization, dictionary matching, raw counts like `_Count`, 
 
 ## Citation
 
-If you use this software in your research, please cite the original paper that develops the emotion vocabulary technique (Vine et al., 2020) and also the preprint for the current paper for which we developed this python package (Sahi et al., under review)
+If you use this software in your research, please cite the original paper that developed the emotion vocabulary technique (Vine et al., 2020) and also the preprint for the current paper for which we developed this python package (Sahi et al., under review)
 
 ```bib
 @article{vine2020natural,
@@ -476,3 +478,4 @@ If you use this software in your research, please cite the original paper that d
 	file = {Full Text PDF:files/10200/Sahi et al. - 2025 - Large natural emotion vocabularies are linked with better mental health in psychotherapeutic convers.pdf:application/pdf},
 }
 ```
+
