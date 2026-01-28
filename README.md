@@ -422,9 +422,9 @@ run_vocabulate_analysis(
     whitespace_method: str = 'new'   # 'new' (default, recommended) or 'old' (exact C# match)
 )
 ```
-**Note about `whitespace_method`**
+**Updated Note about `whitespace_method`**
 
-This parameter controls how the `WC` (word count) metric is calculated and **affects all metrics that use word count in their computation**.
+This parameter controls how the `WC` (word count) metric is calculated and **affects all metrics that depend on tokenization**.
 
 **`'new'` (default, recommended)**: 
 Uses Python's standard `split()` method with additional handling for URLs and file paths:
@@ -442,8 +442,10 @@ Replicates the exact whitespace tokenization from the original C# Vocabulate:
 **Important:** The choice of `whitespace_method` affects:
 - **`WC`**: The raw word count column
 - **`_CWR` columns** (e.g., `Neg_CWR`, `Pos_CWR`): These are calculated as `unique_count / WC * 100`, so changes in `WC` affect these **critical emotion vocabulary metrics**
+- **`_Count` columns** (e.g., `Neg_Count`, `Pos_Count`): These depend on tokenization and dictionary matching, which are directly impacted by `whitespace_method`
+- **TTR (Type-Token Ratio)**: Calculated as `#unique tokens / total tokens * 100`, and changes in tokenization affect this metric
 
-All other metrics (tokenization, dictionary matching, raw counts like `_Count`, unique counts like `_Unique`, and `_CCR` values) are **not** affected by this parameter. We recommend using the default `new` method for all new analyses unless you have a specific reason to replicate legacy results. For example, the `new` method will count "anxiety/sadness" as 2 words while the `old` method will count it as 1 word, which will affect the denominator in all `_CWR` calculations.
+We recommend using the default `new` method for all new analyses unless you have a specific reason to replicate legacy results. For example, the `new` method will count "anxiety/sadness" as 2 words while the `old` method will count it as 1 word, which will affect the denominator in all `_CWR` calculations and the counts in `_Count` columns.
 
 ---
 
