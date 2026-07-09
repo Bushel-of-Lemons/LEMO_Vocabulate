@@ -1,10 +1,10 @@
 # Vocabulate Python Edition
 
-**Vocabulate** is a dictionary-based text analysis tool originally developed in C# for Windows.  
+**[Vocabulate](https://github.com/ryanboyd/Vocabulate)** is a dictionary-based text analysis tool originally developed in C# for Windows.  
 
 This Python package allows you to tokenize, clean, and analyze texts based on custom dictionaries across **any operating system** (Windows, macOS, Linux).
 
-**DISCLAIMER:** All credit for formulating how to compute emotion vocabularies goes to the authors of Vocabulate [Vine et al. (2020)](https://www.nature.com/articles/s41467-020-18349-0). I do not take credit for this software. I simply reconfigured this formula to run in python instead of C#. 
+**DISCLAIMER:** All credit for formulating how to compute emotion vocabularies goes to the authors of Vocabulate [Vine et al. (2020)](https://www.nature.com/articles/s41467-020-18349-0). We do not take credit for this software. We simply reconfigured this formula to run in python instead of C#. 
 
 **MAINTENANCE NOTE:** This package is provided as-is and is not actively maintained. While the core functionality is stable, users should feel free to fork the repository and adapt the code to meet their specific needs. Bug reports and pull requests are welcome, but response times may vary.
 
