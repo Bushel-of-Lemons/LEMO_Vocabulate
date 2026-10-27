@@ -32,3 +32,7 @@ README_files/
 build/
 dist/
 *.egg-info/
+
+# Test Files 
+test_vocabulate_output.csv
+output.csv 

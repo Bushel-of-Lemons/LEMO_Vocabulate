@@ -2,7 +2,7 @@
 
 **[Vocabulate](https://github.com/ryanboyd/Vocabulate)** is a dictionary-based text analysis tool originally developed in C# for Windows.  
 
-This Python package allows you to tokenize, clean, and analyze texts based on custom dictionaries across **any operating system** (Windows, macOS, Linux).
+This Python package, is a reimplementation of the original Vocabulate tool in Python, that allows you to tokenize, clean, and analyze texts based on custom dictionaries across **any operating system** (Windows, macOS, Linux).
 
 **DISCLAIMER:** All credit for formulating how to compute emotion vocabularies goes to the authors of Vocabulate [Vine et al. (2020)](https://www.nature.com/articles/s41467-020-18349-0). We do not take credit for this software. We simply reconfigured this formula to run in python instead of C#. 
 
@@ -33,7 +33,7 @@ While the original Vocabulate software is powerful, this Python implementation o
 
 ## Environment Setup
 
-**Tip:** For the best experience, we recommend running this in a [**Jupyter Notebook**](https://code.visualstudio.com/docs/datascience/jupyter-notebooks) via VSCode where you can interactively explore your results.
+**Tip:** For the best experience, we recommend running this in a [**Jupyter Notebook**](https://code.visualstudio.com/docs/datascience/jupyter-notebooks) via VSCod (or whatever IDE you prefer) where you can interactively explore your results.
 
 ### New to Python or VS Code?
 
@@ -215,7 +215,7 @@ results = run_vocabulate_analysis(
 
 ```python
 import pandas as pd
-from lemo_vocabulate import run_vocabulate_analysis
+from lemo_vocabulate import run_vocabulate_analysis, get_data_path
 
 # Create sample data
 df = pd.DataFrame({
@@ -390,19 +390,32 @@ For each category in the loaded dictionary (e.g., `Neg`, `Pos`, `AnxFear`, `Ange
 - `Neg_Count` → Total Neg words matched
 - `Neg_Unique` → Number of unique Neg words matched
 
+#### Missing values
+
+Ratios are left blank (`NaN`) when they are undefined (0/0), rather than set to 0:
+
+- `_CWR` is `NaN` only for empty or missing texts (`WC = 0`). A text that contains words but no matches for a category receives a true `_CWR = 0`.
+- `_CCR` is `NaN` whenever no words from that category were matched, since there is nothing to compute a ratio over.
+- `TTR_Raw`, `TTR_Clean`, `TTR_NonDict`, and `DictPercent` follow the same rule.
+
+pandas skips `NaN` by default when averaging (e.g., `df["Neg_CWR"].mean()`), so means are computed only over texts where the measure is defined. If you want empty texts to count as zero, fill them explicitly with `df.fillna(0)`.
+
 ---
 
 ## Example Output
 
 | Filename | text | WC | TC_Raw | TTR_Raw | TC_Clean | TTR_Clean | TC_NonDict | TTR_NonDict | DictPercent | CapturedText | Neg_CWR | Neg_CCR | Neg_Count | Neg_Unique | Pos_CWR | Pos_CCR | Pos_Count | Pos_Unique | AnxFear_CWR | AnxFear_CCR | AnxFear_Count | AnxFear_Unique | Anger_CWR | Anger_CCR | Anger_Count | Anger_Unique | Sadness_CWR | Sadness_CCR | Sadness_Count | Sadness_Unique | NegUndiff_CWR | NegUndiff_CCR | NegUndiff_Count | NegUndiff_Unique |
-|----------|------|-----|--------|---------|----------|-----------|------------|-------------|-------------|--------------|---------|---------|-----------|------------|---------|---------|-----------|------------|-------------|-------------|---------------|----------------|-----------|-----------|-------------|--------------|-------------|-------------|---------------|----------------|---------------|---------------|-----------------|------------------|
-| 0 | I am so angry and agitated! | 6 | 7 | 100.0 | 2 | 100.0 | 0 | 0.0 | 28.57 | angry agitated | 33.33 | 100.0 | 2 | 2 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 16.67 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
-| 1 | I'm feeling really happy. Happy but also nervous. | 8 | 10 | 80.0 | 4 | 75.0 | 1 | 100.0 | 30.0 | happy happy nervous | 12.5 | 100.0 | 1 | 1 | 12.5 | 50.0 | 2 | 1 | 12.5 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
-| 2 | It's been an emotional rollercoaster… | 5 | 6 | 100.0 | 3 | 100.0 | 2 | 100.0 | 16.67 | emotional | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 20.0 | 100.0 | 1 | 1 |
-| 3 | It was like a combo of anxiety/agitation. | 7 | 10 | 100.0 | 4 | 100.0 | 2 | 100.0 | 20.0 | anxiety agitation | 28.57 | 100.0 | 2 | 2 | 0.0 | 0.0 | 0 | 0 | 14.29 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
-| 4 | I had a good day. :) | 6 | 7 | 100.0 | 3 | 100.0 | 3 | 100.0 | 0.0 | | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
-| 5 | I dislike disliking people, but I can't help but dislike this person! | 12 | 14 | 78.57 | 6 | 83.33 | 3 | 100.0 | 21.43 | dislike disliking dislike | 8.33 | 33.33 | 3 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 |
-| 6 | I felt bad about work, and I felt bad about my relationships, but I was mostly mad at myself. | 19 | 22 | 72.73 | 7 | 71.43 | 4 | 75.0 | 13.64 | bad bad mad | 5.26 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 0.0 | 0.0 | 0 | 0 | 5.26 | 100.0 | 1 | 1 | 0.0 | 0.0 | 0 | 0 | 5.26 | 50.0 | 2 | 1 |
+|----------|------|----|--------|---------|----------|-----------|------------|-------------|-------------|--------------|---------|---------|-----------|------------|---------|---------|-----------|------------|-------------|-------------|---------------|----------------|-----------|-----------|-------------|--------------|-------------|-------------|---------------|----------------|---------------|---------------|-----------------|------------------|
+| 0 | I am so angry and agitated! | 6 | 7 | 100.0 | 2 | 100.0 | 0 |  | 28.57 | angry agitated | 33.33 | 100.0 | 2 | 2 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 16.67 | 100.0 | 1 | 1 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 |
+| 1 | I'm feeling really happy. Happy but also nervous. | 8 | 10 | 80.0 | 4 | 75.0 | 1 | 100.0 | 30.0 | happy happy nervous | 12.5 | 100.0 | 1 | 1 | 12.5 | 50.0 | 2 | 1 | 12.5 | 100.0 | 1 | 1 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 |
+| 2 | It's been an emotional rollercoaster… | 5 | 6 | 100.0 | 3 | 100.0 | 2 | 100.0 | 16.67 | emotional | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 20.0 | 100.0 | 1 | 1 |
+| 3 | It was like a combo of anxiety/agitation. | 7 | 10 | 100.0 | 4 | 100.0 | 2 | 100.0 | 20.0 | anxiety agitation | 28.57 | 100.0 | 2 | 2 | 0.0 |  | 0 | 0 | 14.29 | 100.0 | 1 | 1 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 |
+| 4 | I had a good day. :) | 6 | 7 | 100.0 | 3 | 100.0 | 3 | 100.0 | 0.0 |  | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 |
+| 5 | I dislike disliking people, but I can't help but dislike this person! | 12 | 14 | 78.57 | 6 | 83.33 | 3 | 100.0 | 21.43 | dislike disliking dislike | 8.33 | 33.33 | 3 | 1 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 |
+| 6 | I felt bad about work, and I felt bad about my relationships, but I was mostly mad at myself. | 19 | 22 | 72.73 | 7 | 71.43 | 4 | 75.0 | 13.64 | bad bad mad | 5.26 | 100.0 | 1 | 1 | 0.0 |  | 0 | 0 | 0.0 |  | 0 | 0 | 5.26 | 100.0 | 1 | 1 | 0.0 |  | 0 | 0 | 5.26 | 50.0 | 2 | 1 |
+
+Blank cells are undefined ratios (`NaN`); see [Missing values](#missing-values).
+
 ---
 
 ## Function Parameters
@@ -445,7 +458,18 @@ Replicates the exact whitespace tokenization from the original C# Vocabulate:
 - **`_Count` columns** (e.g., `Neg_Count`, `Pos_Count`): These depend on tokenization and dictionary matching, which are directly impacted by `whitespace_method`
 - **TTR (Type-Token Ratio)**: Calculated as `#unique tokens / total tokens * 100`, and changes in tokenization affect this metric
 
-We recommend using the default `new` method for all new analyses unless you have a specific reason to replicate legacy results. For example, the `new` method will count "anxiety/sadness" as 2 words while the `old` method will count it as 1 word, which will affect the denominator in all `_CWR` calculations and the counts in `_Count` columns.
+We recommend using the default `new` method for all new analyses unless you have a specific reason to replicate the legacy `Vocabulate` results. For example, the `new` method will count "anxiety/sadness" as 2 words while the `old` method will count it as 1 word, which will affect the denominator in all `_CWR` calculations and the counts in `_Count` columns.
+
+---
+
+## Known Limitations
+
+LEMO Vocabulate is a dictionary-based (bag-of-words) method. It counts words that match each category regardless of context, which has a few consequences:
+
+- **Negation is not handled.** "You are not alone in this" counts *alone* as a sadness word, and "Don't worry, it's not your fault" counts *worry* as an anxiety word. Supportive messages often contain negated emotion terms, so scores may be inflated in those contexts. If you'd like a more nuanced approach, consider using a sentiment analysis tool (e.g., VADER, or Transformer-based models) to complement LEMO Vocabulate.
+- **Word senses are not distinguished.** "The interest rate on the security deposit" counts *interest* and *security* as positive emotion words, and "surprisingly productive" counts *surprisingly* as positive emotion.
+- **It measures emotion vocabulary, not general sentiment.** The AEV dictionary targets emotion words, so evaluative words like *great* or *wonderful* are not counted. Use a sentiment tool (e.g., LIWC tone, VADER) if overall valence is what you need.
+- **Short texts are unstable.** Ratios based on few words are noisy. We recommend setting a minimum word count appropriate to your data and reporting it. Most researchers use a minimum of 20-30 words per text for reliable results. See [Eichstaedt et al. (2021)](https://par.nsf.gov/servlets/purl/10317239) for a discussion of best practices in text analysis.
 
 ---
 
@@ -456,7 +480,7 @@ If you use this software in your research, please cite the original paper that d
 ```bib
 @article{vine2020natural,
   title={Natural emotion vocabularies as windows on distress and well-being},
-  author={Vine, Vera, Boyd, Ryan L. and Pennebaker, James W.},
+  author={Vine, Vera and Boyd, Ryan L. and Pennebaker, James W.},
   journal={Nature Communications},
   volume={11},
   number={1},
@@ -467,17 +491,16 @@ If you use this software in your research, please cite the original paper that d
 ```
 
 ```bib
-@misc{sahi_large_2025,
-	title = {Large natural emotion vocabularies are linked with better mental health in psychotherapeutic conversations},
+@misc{sahi_affect_2026,
+	title = {Affect labeling is linked with better mental health in psychotherapeutic conversations},
 	url = {https://www.researchsquare.com/article/rs-6932501/v1},
 	doi = {10.21203/rs.3.rs-6932501/v1},
-	urldate = {2025-12-05},
+	urldate = {2026-10-27},
 	publisher = {Research Square},
-	author = {Sahi, Razia and Hull, Thomas and Vine, Vera and Nook, Erik},
-	month = jun,
-	year = {2025},
+	author = {Sahi, Razia and Mesquiti, Steven and Hull, Thomas and Vine, Vera and Nook, Erik},
+	month = oct,
+	year = {2026},
 	note = {ISSN: 2693-5015},
-	file = {Full Text PDF:files/10200/Sahi et al. - 2025 - Large natural emotion vocabularies are linked with better mental health in psychotherapeutic convers.pdf:application/pdf},
+	file = {Full Text PDF:files/10200/Sahi et al. - 2026 - Affect labeling is linked with better mental health in psychotherapeutic convers.pdf:application/pdf},
 }
 ```
-

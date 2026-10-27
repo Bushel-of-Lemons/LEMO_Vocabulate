@@ -1,7 +1,9 @@
 import pandas as pd
 import numpy as np
 import random  # do not alias
-from LEMO_vocabulate import run_vocabulate_analysis
+from pathlib import Path
+
+from lemo_vocabulate import run_vocabulate_analysis, get_data_path
 
 # Set random seeds
 random.seed(42)
@@ -9,10 +11,14 @@ np.random.seed(42)
 
 n = 11  # number of rows
 
-# ---------------- Dictionary Analysis ----------------
+# Resolve the example texts folder relative to this script, so it works
+# whether you run it from the repo root or from inside examples/
+TEXTS_DIR = Path(__file__).resolve().parent.parent / "texts_to_analyze"
+
+# ---------------- Dictionary Analysis (folder of .txt files) ----------------
 df = run_vocabulate_analysis(
     dict_file=get_data_path("AEV_Dict.csv"),
-    input_data="texts_to_analyze",
+    input_data=TEXTS_DIR,
     stopwords_file=get_data_path("stopwords.txt"),  # Use bundled stopwords
     raw_counts=True,
     output_csv="output.csv"
@@ -33,13 +39,13 @@ test_df = pd.DataFrame({
         "Politics is exhausting these days.",
         "Had a wonderful dinner with family.",
         "Trying to improve my coding skills every day.",
-        "Hate, hate, hate this situation!" # checking to see if this gets picked up by the dictionary
+        "Hate, hate, hate this situation!"  # checking to see if this gets picked up by the dictionary
     ],
     "score": np.random.randn(n) * 10 + 50
 })
 print(test_df.head())
 
-# ---------------- Run Vocabulate ----------------
+# ---------------- Run Vocabulate (DataFrame input) ----------------
 df_results = run_vocabulate_analysis(
     dict_file=get_data_path("AEV_Dict.csv"),
     input_data=test_df,
