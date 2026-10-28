@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2025 Steven Mesquiti
+Copyright (c) 2025 Steven Mesquiti, Razia Sahi, and Erik Nook
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,15 @@ SOFTWARE.
 
 ---
 
-This software is a Python port of Vocabulate, originally developed by:
+This software is a Python port of Vocabulate, originally developed by
+Ryan L. Boyd and released under the MIT License:
+
+[Copyright (c) YEAR HOLDER, copied exactly from the original Vocabulate LICENSE]
+
+The original Vocabulate is distributed under the same MIT License terms
+reproduced above.
+
+If you use this software, please also cite:
 Vine, V., Boyd, R. L., & Pennebaker, J. W. (2020).
 Natural emotion vocabularies as windows on distress and well-being.
 Nature Communications, 11(1), 4525.

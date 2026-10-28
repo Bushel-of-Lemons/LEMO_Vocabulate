@@ -5,9 +5,11 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "lemo-vocabulate"
 version = "1.1.0"  # Increment version
-authors = [
-  { name="Steven Mesquiti", email="sm9518@princeton.edu" },
-]
+  authors = [
+      {name = "Steven Mesquiti", email = "sm9518@princeton.edu"},
+      {name = "Razia Sahi"},
+      {name = "Erik Nook"},
+  ]
 description = "Dictionary-based text analysis tool for emotion and sentiment analysis. Python port of Vocabulate (Vine et al., 2020)."
 readme = "README.md"
 requires-python = ">=3.8"
